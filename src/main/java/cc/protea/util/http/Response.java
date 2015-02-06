@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class Response extends Message<Response> {
 
-    int responseCode;
+    int    responseCode;
     String responseMessage;
 
     /**
@@ -66,6 +66,7 @@ public class Response extends Message<Response> {
 
     /**
      * Sets the Response Message, which should pertain to the Response Code
+     *
      * @param responseMessage Any message which was sent back from the server, pertaining to the Response Code
      * @return this Response, to support chained method calls
      */
@@ -76,18 +77,19 @@ public class Response extends Message<Response> {
 
     /**
      * Returns a String representation of this Response.  Helpful for debugging.
-     * @return  Returns a String representation of this Response.  Helpful for debugging.
+     *
+     * @return Returns a String representation of this Response.  Helpful for debugging.
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
         String newline = System.getProperty("line.separator");
 
         builder.append("Response Code: ")
-                .append(this.responseCode)
-                .append(newline)
-                .append("Response Message: ")
-                .append(newline).append(newline)
-                .append("Headers: ").append(newline);
+               .append(this.responseCode)
+               .append(newline)
+               .append("Response Message: ")
+               .append(newline).append(newline)
+               .append("Headers: ").append(newline);
 
         for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
             List<String> values = entry.getValue();
@@ -97,7 +99,7 @@ public class Response extends Message<Response> {
         }
 
         builder.append(newline).append("Body: ").append(newline)
-                .append(body);
+               .append(body);
 
         return builder.toString();
     }

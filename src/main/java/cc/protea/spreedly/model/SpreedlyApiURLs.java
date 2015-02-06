@@ -7,15 +7,16 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyApiURLs {
 
-	@XmlElement(name = "callback_conversations") public String callbackConversations;
+    @XmlElement(name = "callback_conversations")
+    public String callbackConversations;
 
-	public String getCallbackConversations() {
-		return callbackConversations;
-	}
+    public String getCallbackConversations() {
+        return callbackConversations;
+    }
 
-	public SpreedlyApiURLs setCallbackConversations(final String callbackConversations) {
-		this.callbackConversations = callbackConversations;
-		return this;
-	}
+    public SpreedlyApiURLs setCallbackConversations(final String callbackConversations) {
+        this.callbackConversations = callbackConversations;
+        return this;
+    }
 
 }

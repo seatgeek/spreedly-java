@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum SpreedlyGatewayAccountState {
 
-	@XmlEnumValue("retained") RETAINED,
-	@XmlEnumValue("redacted") REDACTED
+    @XmlEnumValue("retained")RETAINED,
+    @XmlEnumValue("redacted")REDACTED
 
 }

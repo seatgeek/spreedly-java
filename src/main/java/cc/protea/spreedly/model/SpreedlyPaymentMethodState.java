@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum SpreedlyPaymentMethodState {
 
-	@XmlEnumValue("cached") CACHED,
-	@XmlEnumValue("retained") RETAINED,
-	@XmlEnumValue("redacted") REDACTED
+    @XmlEnumValue("cached")CACHED,
+    @XmlEnumValue("retained")RETAINED,
+    @XmlEnumValue("redacted")REDACTED
 
 }

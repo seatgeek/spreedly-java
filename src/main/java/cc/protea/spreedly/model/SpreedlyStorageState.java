@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum SpreedlyStorageState {
 
-	@XmlEnumValue("retained") RETAINED,
-	@XmlEnumValue("cached") CACHED,
-	@XmlEnumValue("redacted") REDACTED
+    @XmlEnumValue("retained")RETAINED,
+    @XmlEnumValue("cached")CACHED,
+    @XmlEnumValue("redacted")REDACTED
 }

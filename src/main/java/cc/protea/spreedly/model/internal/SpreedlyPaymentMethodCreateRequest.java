@@ -6,7 +6,10 @@ import cc.protea.spreedly.model.SpreedlyCreditCard;
 
 public class SpreedlyPaymentMethodCreateRequest {
 
-	@XmlElement(name = "credit_card") public SpreedlyCreditCard creditCard;
-	@XmlElement(name = "email") public String email;
-	@XmlElement(name = "data") public Object data;
+    @XmlElement(name = "credit_card")
+    public SpreedlyCreditCard creditCard;
+    @XmlElement(name = "email")
+    public String             email;
+    @XmlElement(name = "data")
+    public Object             data;
 }

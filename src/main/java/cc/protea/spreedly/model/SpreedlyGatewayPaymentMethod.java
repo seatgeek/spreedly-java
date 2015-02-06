@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum SpreedlyGatewayPaymentMethod {
 
-	@XmlEnumValue("credit_card") CREDIT_CARD,
-	@XmlEnumValue("bank_account") BANK_ACCOUNT,
-	@XmlEnumValue("paypal") PAYPAL
+    @XmlEnumValue("credit_card")CREDIT_CARD,
+    @XmlEnumValue("bank_account")BANK_ACCOUNT,
+    @XmlEnumValue("paypal")PAYPAL
 
 }

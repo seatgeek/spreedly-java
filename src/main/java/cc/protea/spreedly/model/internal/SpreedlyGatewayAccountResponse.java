@@ -11,7 +11,7 @@ import cc.protea.spreedly.model.SpreedlyGatewayAccount;
 @XmlRootElement(name = "gateways")
 public class SpreedlyGatewayAccountResponse {
 
-	@XmlElement(name = "gateway")
-	public List<SpreedlyGatewayAccount> gateways = new ArrayList<SpreedlyGatewayAccount>();
+    @XmlElement(name = "gateway")
+    public List<SpreedlyGatewayAccount> gateways = new ArrayList<SpreedlyGatewayAccount>();
 
 }

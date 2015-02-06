@@ -11,7 +11,7 @@ import cc.protea.spreedly.model.SpreedlyTransactionResponse;
 @XmlRootElement(name = "transactions")
 public class SpreedlyTransactionListResponse {
 
-	@XmlElement(name = "transaction")
-	public List<SpreedlyTransactionResponse> transactions = new ArrayList<SpreedlyTransactionResponse>();
+    @XmlElement(name = "transaction")
+    public List<SpreedlyTransactionResponse> transactions = new ArrayList<SpreedlyTransactionResponse>();
 
 }

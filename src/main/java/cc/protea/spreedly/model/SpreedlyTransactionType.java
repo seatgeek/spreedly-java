@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum SpreedlyTransactionType {
 
-	@XmlEnumValue("Authorization") AUTHORIZATION,
-	@XmlEnumValue("Capture") CAPTURE,
-	@XmlEnumValue("Credit") CREDIT,
-	@XmlEnumValue("RecacheSensitiveData") RECACHE_SENSITIVE_DATA
+    @XmlEnumValue("Authorization")AUTHORIZATION,
+    @XmlEnumValue("Capture")CAPTURE,
+    @XmlEnumValue("Credit")CREDIT,
+    @XmlEnumValue("RecacheSensitiveData")RECACHE_SENSITIVE_DATA
 
 }

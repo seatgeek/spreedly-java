@@ -11,7 +11,7 @@ import cc.protea.spreedly.model.SpreedlyPaymentMethod;
 @XmlRootElement(name = "payment_methods")
 public class SpreedlyPaymentMethodListResponse {
 
-	@XmlElement(name = "payment_method")
-	public List<SpreedlyPaymentMethod> paymentMethods = new ArrayList<SpreedlyPaymentMethod>();
+    @XmlElement(name = "payment_method")
+    public List<SpreedlyPaymentMethod> paymentMethods = new ArrayList<SpreedlyPaymentMethod>();
 
 }

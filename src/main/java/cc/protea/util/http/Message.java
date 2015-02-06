@@ -52,8 +52,8 @@ public abstract class Message<T extends Message<T>> {
     /**
      * Sets the body of the Message.
      *
-     * @param body  This is typically the JSON, XML, or Form Parameters being sent to the server.
-     * @return  this Message, to support chained method calls
+     * @param body This is typically the JSON, XML, or Form Parameters being sent to the server.
+     * @return this Message, to support chained method calls
      */
     @SuppressWarnings("unchecked")
     public T setBody(final String body) {
@@ -64,7 +64,7 @@ public abstract class Message<T extends Message<T>> {
     /**
      * Adds a single header value to the Message.
      *
-     * @param name The header name.
+     * @param name  The header name.
      * @param value The header value
      * @return this Message, to support chained method calls
      */

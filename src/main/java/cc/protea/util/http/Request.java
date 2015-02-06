@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class Request extends Message<Request> {
 
-    HttpURLConnection connection;
+    HttpURLConnection  connection;
     OutputStreamWriter writer;
 
     URL url;
@@ -43,17 +43,17 @@ public class Request extends Message<Request> {
      * The Constructor takes the url as a String.
      *
      * @param url The url parameter does not need the query string parameters if
-          *       they are going to be supplied via calls to {@link #addQueryParameter(String, String)}.  You can, however, supply
-          *       the query parameters in the URL if you wish.
+     *            they are going to be supplied via calls to {@link #addQueryParameter(String, String)}.  You can, however, supply
+     *            the query parameters in the URL if you wish.
      * @throws IOException
      */
     public Request(final String url) {
-    	try {
-    		this.url = new URL(url);
+        try {
+            this.url = new URL(url);
             this.connection = (HttpURLConnection) this.url.openConnection();
-    	} catch (IOException e) {
-    		throw new RuntimeException(e);
-    	}
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -97,6 +97,7 @@ public class Request extends Message<Request> {
 
     /**
      * Issues a GET to the server.
+     *
      * @return The {@link Response} from the server
      * @throws IOException
      */
@@ -112,6 +113,7 @@ public class Request extends Message<Request> {
 
     /**
      * Issues a PUT to the server.
+     *
      * @return The {@link Response} from the server
      * @throws IOException
      */
@@ -131,6 +133,7 @@ public class Request extends Message<Request> {
 
     /**
      * Issues a POST to the server.
+     *
      * @return The {@link Response} from the server
      * @throws IOException
      */
@@ -140,6 +143,7 @@ public class Request extends Message<Request> {
 
     /**
      * Issues a DELETE to the server.
+     *
      * @return The {@link Response} from the server
      * @throws IOException
      */
@@ -157,7 +161,7 @@ public class Request extends Message<Request> {
      * A private method that handles issuing POST and PUT requests
      *
      * @param method POST or PUT
-     * @param body The body of the Message
+     * @param body   The body of the Message
      * @return the {@link Response} from the server
      * @throws IOException
      */
@@ -177,46 +181,47 @@ public class Request extends Message<Request> {
 
     /**
      * A private method that handles reading the Responses from the server.
+     *
      * @return a {@link Response} from the server.
      * @throws IOException
      */
     private Response readResponse() throws IOException {
-    	Response response = new Response();
-    	response.setResponseCode(connection.getResponseCode());
-    	response.setResponseMessage(connection.getResponseMessage());
-    	response.setHeaders(connection.getHeaderFields());
-    	try {
-    		response.setBody(getStringFromStream(connection.getInputStream()));
-    	} catch (IOException e) {
-    		response.setBody(getStringFromStream(connection.getErrorStream()));
-    	}
+        Response response = new Response();
+        response.setResponseCode(connection.getResponseCode());
+        response.setResponseMessage(connection.getResponseMessage());
+        response.setHeaders(connection.getHeaderFields());
+        try {
+            response.setBody(getStringFromStream(connection.getInputStream()));
+        } catch (IOException e) {
+            response.setBody(getStringFromStream(connection.getErrorStream()));
+        }
         return response;
     }
 
     private String getStringFromStream(final InputStream is) {
-    	if (is == null) {
-    		return null;
-    	}
-    	BufferedReader reader = null;
-    	try {
- 	       reader = new BufferedReader(new InputStreamReader(is));
- 	        StringBuilder builder = new StringBuilder();
- 	        String line;
- 	        while ((line = reader.readLine()) != null) {
- 	            builder.append(line);
- 	        }
- 	        return builder.toString();
-     	} catch (IOException e) {
-     		return null;
-     	} finally {
-     		if (reader != null) {
-     			try {
-     				reader.close();
-     			} catch (IOException e) {
-     				// no-op
-     			}
-     		}
-     	}
+        if (is == null) {
+            return null;
+        }
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            return builder.toString();
+        } catch (IOException e) {
+            return null;
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // no-op
+                }
+            }
+        }
     }
 
     /**

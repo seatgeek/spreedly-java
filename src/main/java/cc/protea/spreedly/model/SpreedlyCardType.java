@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum(String.class)
 public enum SpreedlyCardType {
 
-	@XmlEnumValue("visa") VISA,
-	@XmlEnumValue("master") MASTERCARD,
-	@XmlEnumValue("american_express") AMEX,
-	@XmlEnumValue("discover") DISCOVER,
-	@XmlEnumValue("dankort") DANKORT,
-	@XmlEnumValue("jcb") JCB,
-	@XmlEnumValue("diners_club") DINERS_CLUB
+    @XmlEnumValue("visa")VISA,
+    @XmlEnumValue("master")MASTERCARD,
+    @XmlEnumValue("american_express")AMEX,
+    @XmlEnumValue("discover")DISCOVER,
+    @XmlEnumValue("dankort")DANKORT,
+    @XmlEnumValue("jcb")JCB,
+    @XmlEnumValue("diners_club")DINERS_CLUB
 
 }
