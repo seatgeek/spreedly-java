@@ -32,6 +32,7 @@ import javax.xml.ws.Response;
 public abstract class Message<T extends Message<T>> {
     Map<String, List<String>> headers = new HashMap<String, List<String>>();
     String body;
+    String method;
 
     /**
      * The default constructor is a no-op constructor.
@@ -102,5 +103,11 @@ public abstract class Message<T extends Message<T>> {
         return (T) this;
     }
 
+    public String getMethod() {
+        return this.method;
+    }
 
+    public void setMethod(String method) {
+        this.method = method;
+    }
 }

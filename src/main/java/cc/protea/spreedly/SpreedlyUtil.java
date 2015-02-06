@@ -14,23 +14,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
+import cc.protea.util.http.HttpClient;
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 
 class SpreedlyUtil {
 
     private final String enironmentKey;
+
     private final String apiSecret;
 
-    public SpreedlyUtil(final String environmentKey, final String apiSecret) {
+    private final HttpClient client;
+
+    public SpreedlyUtil(final String environmentKey, final String apiSecret, final HttpClient client) {
         this.enironmentKey = environmentKey;
         this.apiSecret = apiSecret;
+        this.client = client;
     }
 
     <T> T options(final String url, final Class<T> type) {
         Response response = null;
         try {
-            response = getService(url).optionsResource();
+            response = getService(url).optionsResource(client);
             return convert(response.getBody(), type);
         } catch (SpreedlyException e) {
             return addError(type, e);
@@ -42,7 +47,7 @@ class SpreedlyUtil {
     <T> T get(final String url, final Class<T> type) {
         Response response = null;
         try {
-            response = getService(url).getResource();
+            response = getService(url).getResource(client);
             return convert(response.getBody(), type);
         } catch (SpreedlyException e) {
             return addError(type, e);
@@ -55,7 +60,7 @@ class SpreedlyUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).deleteResource();
+            response = getService(url).setBody(body).deleteResource(client);
             return convert(response.getBody(), type);
         } catch (SpreedlyException e) {
             return addError(type, e);
@@ -68,7 +73,7 @@ class SpreedlyUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).deleteResource();
+            response = getService(url).setBody(body).deleteResource(client);
         } catch (IOException e) {
             throw new SpreedlyException(e, response);
         }
@@ -78,7 +83,7 @@ class SpreedlyUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).putResource();
+            response = getService(url).setBody(body).putResource(client);
             return convert(response.getBody(), type);
         } catch (SpreedlyException e) {
             return addError(type, e);
@@ -91,7 +96,7 @@ class SpreedlyUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).postResource();
+            response = getService(url).setBody(body).postResource(client);
             return convert(response.getBody(), type);
         } catch (SpreedlyException e) {
             return addError(type, e);
@@ -108,9 +113,9 @@ class SpreedlyUtil {
 
     private Request getService(final String url) {
         return new Request(url)
+                       .setContentType("application/xml")
                        .addHeader("Authorization", getAuthorizationHeader())
-                       .addHeader("Accept", "application/xml")
-                       .addHeader("Content-Type", "application/xml");
+                       .addHeader("Accept", "application/xml");
     }
 
     private <T> T convert(final String xml, final Class<T> type) {

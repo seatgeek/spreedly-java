@@ -1,13 +1,9 @@
 package cc.protea.util.http;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,28 +29,31 @@ import java.util.Map;
  */
 public class Request extends Message<Request> {
 
-    HttpURLConnection  connection;
-    OutputStreamWriter writer;
+    public static final String PARAM_ENCODING = "UTF-8";
+    public static final String METHOD_DELETE  = "DELETE";
+    public static final String METHOD_POST    = "POST";
+    public static final String METHOD_OPTIONS = "OPTIONS";
+    public static final String METHOD_PUT     = "PUT";
+    public static final String METHOD_GET     = "GET";
 
-    URL url;
+    String url;
+
     Map<String, String> query = new HashMap<String, String>();
+
+    private boolean doOutput;
+
+    private String contentType;
 
     /**
      * The Constructor takes the url as a String.
      *
      * @param url The url parameter does not need the query string parameters if
-     *            they are going to be supplied via calls to {@link #addQueryParameter(String, String)}.  You can, however, supply
+     *            they are going to be supplied via calls to {@link #addEncodedQueryParameter(String, String)}.  You can, however, supply
      *            the query parameters in the URL if you wish.
      * @throws IOException
      */
     public Request(final String url) {
-        try {
-            this.url = new URL(url);
-            this.connection = (HttpURLConnection) this.url.openConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        this.url = url;
     }
 
     /**
@@ -65,8 +64,26 @@ public class Request extends Message<Request> {
      * @param value The Query Parameter's value
      * @return this Request, to support chained method calls
      */
-    public Request addQueryParameter(final String name, final String value) {
+    public Request addEncodedQueryParameter(final String name, final String value) {
         this.query.put(name, value);
+        return this;
+    }
+
+    /**
+     * Adds an already-encoded Query Parameter to a list.  The list is converted to a String and appended to the URL when the Request
+     * is submitted.
+     *
+     * @param name  The encoded Query Parameter's name
+     * @param value The encoded Query Parameter's value
+     * @return this Request, to support chained method calls
+     */
+    public Request addQueryParameter(final String name, final String value) {
+        try {
+            this.query.put(URLEncoder.encode(name, PARAM_ENCODING), URLEncoder.encode(value, PARAM_ENCODING));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
         return this;
     }
 
@@ -85,7 +102,7 @@ public class Request extends Message<Request> {
      * Sets the URL that this Request will be sent to.
      *
      * @param url The url parameter does not need the query string parameters if
-     *            they are going to be supplied via calls to {@link #addQueryParameter(String, String)}.  You can, however, supply
+     *            they are going to be supplied via calls to {@link #addEncodedQueryParameter(String, String)}.  You can, however, supply
      *            the query parameters in the URL if you wish.
      * @return this Request, to support chained method calls
      * @throws MalformedURLException If the supplied url is malformed.
@@ -101,127 +118,78 @@ public class Request extends Message<Request> {
      * @return The {@link Response} from the server
      * @throws IOException
      */
-    public Response getResource() throws IOException {
+    public Response getResource(HttpClient client) throws IOException {
         buildQueryString();
-        buildHeaders();
 
-        connection.setDoOutput(true);
-        connection.setRequestMethod("GET");
+        setDoOutput(true);
+        setMethod(METHOD_GET);
 
-        return readResponse();
+        return client.execute(this);
+    }
+
+    /**
+     * Issues an OPTIONS to the server.
+     *
+     * @param client {@link HttpClient} to execute on
+     * @return
+     * @throws IOException
+     */
+    public Response optionsResource(HttpClient client) throws IOException {
+        buildQueryString();
+
+        setDoOutput(true);
+        setMethod(METHOD_OPTIONS);
+
+        return client.execute(this);
     }
 
     /**
      * Issues a PUT to the server.
      *
+     * @param client {@link HttpClient} to execute on
      * @return The {@link Response} from the server
      * @throws IOException
      */
-    public Response putResource() throws IOException {
-        return writeResource("PUT", this.body);
-    }
-
-    public Response optionsResource() throws IOException {
+    public Response putResource(HttpClient client) throws IOException {
         buildQueryString();
-        buildHeaders();
 
-        connection.setDoOutput(true);
-        connection.setRequestMethod("OPTIONS");
+        setDoOutput(true);
+        setMethod(METHOD_PUT);
 
-        return readResponse();
+        return client.execute(this);
     }
 
     /**
      * Issues a POST to the server.
      *
+     * @param client {@link HttpClient} to execute on
      * @return The {@link Response} from the server
      * @throws IOException
      */
-    public Response postResource() throws IOException {
-        return writeResource("POST", this.body);
+    public Response postResource(HttpClient client) throws IOException {
+        buildQueryString();
+
+        setDoOutput(true);
+        setMethod(METHOD_POST);
+
+        return client.execute(this);
     }
 
     /**
      * Issues a DELETE to the server.
      *
+     * @param client {@link HttpClient} to execute on
+     * @param client
      * @return The {@link Response} from the server
      * @throws IOException
      */
-    public Response deleteResource() throws IOException {
+    public Response deleteResource(HttpClient client) throws IOException {
         buildQueryString();
-        buildHeaders();
 
-        connection.setDoOutput(true);
-        connection.setRequestMethod("DELETE");
+        setDoOutput(true);
+        setMethod(METHOD_DELETE);
 
-        return readResponse();
-    }
-
-    /**
-     * A private method that handles issuing POST and PUT requests
-     *
-     * @param method POST or PUT
-     * @param body   The body of the Message
-     * @return the {@link Response} from the server
-     * @throws IOException
-     */
-    private Response writeResource(final String method, final String body) throws IOException {
-        buildQueryString();
-        buildHeaders();
-
-        connection.setDoOutput(true);
-        connection.setRequestMethod(method);
-
-        writer = new OutputStreamWriter(connection.getOutputStream());
-        writer.write(body);
-        writer.close();
-
-        return readResponse();
-    }
-
-    /**
-     * A private method that handles reading the Responses from the server.
-     *
-     * @return a {@link Response} from the server.
-     * @throws IOException
-     */
-    private Response readResponse() throws IOException {
-        Response response = new Response();
-        response.setResponseCode(connection.getResponseCode());
-        response.setResponseMessage(connection.getResponseMessage());
-        response.setHeaders(connection.getHeaderFields());
-        try {
-            response.setBody(getStringFromStream(connection.getInputStream()));
-        } catch (IOException e) {
-            response.setBody(getStringFromStream(connection.getErrorStream()));
-        }
-        return response;
-    }
-
-    private String getStringFromStream(final InputStream is) {
-        if (is == null) {
-            return null;
-        }
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder builder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-            return builder.toString();
-        } catch (IOException e) {
-            return null;
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    // no-op
-                }
-            }
-        }
+        return client.execute(this);
     }
 
     /**
@@ -240,6 +208,7 @@ public class Request extends Message<Request> {
                 builder.append(param.getValue());
                 builder.append("&");
             }
+
             builder.deleteCharAt(builder.lastIndexOf("&")); // Remove the trailing ampersand
         }
 
@@ -248,23 +217,32 @@ public class Request extends Message<Request> {
             builder.insert(0, "?");
         }
 
-        url = new URL(url.toString() + builder.toString());
+        url = url.toString() + builder.toString();
     }
 
-    /**
-     * A private method that loops through the headers Map, putting them on the Request or Response object.
-     */
-    private void buildHeaders() {
-        if (!headers.isEmpty()) {
-            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                List<String> values = entry.getValue();
-
-                for (String value : values) {
-                    connection.addRequestProperty(entry.getKey(), value);
-                }
-            }
-        }
-
+    public String getUrl() {
+        return this.url;
     }
 
+    public boolean getDoOuput() {
+        return this.doOutput;
+    }
+
+    public Map<String, List<String>> getHeaders() {
+        return this.headers;
+    }
+
+    private Request setDoOutput(boolean doOutput) {
+        this.doOutput = doOutput;
+        return this;
+    }
+
+    public Request setContentType(String contentType) {
+        this.contentType = contentType;
+        return this;
+    }
+
+    public String getContentType() {
+        return this.contentType;
+    }
 }

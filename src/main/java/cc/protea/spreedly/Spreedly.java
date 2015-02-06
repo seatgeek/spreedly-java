@@ -16,13 +16,19 @@ import cc.protea.spreedly.model.internal.SpreedlyPaymentMethodCreateRequest;
 import cc.protea.spreedly.model.internal.SpreedlyPaymentMethodListResponse;
 import cc.protea.spreedly.model.internal.SpreedlyPaymentMethodUpdate;
 import cc.protea.spreedly.model.internal.SpreedlyTransactionListResponse;
+import cc.protea.util.http.HttpClient;
+import cc.protea.util.http.HttpURLConnectionClient;
 
 public class Spreedly {
 
     private final SpreedlyUtil util;
 
+    public Spreedly(final String environmentKey, final String apiSecret, final HttpClient client) {
+        util = new SpreedlyUtil(environmentKey, apiSecret, client);
+    }
+
     public Spreedly(final String environmentKey, final String apiSecret) {
-        util = new SpreedlyUtil(environmentKey, apiSecret);
+        this(environmentKey, apiSecret, new HttpURLConnectionClient());
     }
 
     // Gateway Providers
