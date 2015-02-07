@@ -20,14 +20,14 @@ import cc.protea.util.http.Response;
 
 class SpreedlyUtil {
 
-    private final String enironmentKey;
+    private final String environmentKey;
 
     private final String apiSecret;
 
     private final HttpClient client;
 
     public SpreedlyUtil(final String environmentKey, final String apiSecret, final HttpClient client) {
-        this.enironmentKey = environmentKey;
+        this.environmentKey = environmentKey;
         this.apiSecret = apiSecret;
         this.client = client;
     }
@@ -106,16 +106,22 @@ class SpreedlyUtil {
     }
 
     private String getAuthorizationHeader() {
-        final String pair = this.enironmentKey + ":" + this.apiSecret;
+        final String pair = this.environmentKey + ":" + this.apiSecret;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         return "Basic " + base64;
     }
 
     private Request getService(final String url) {
-        return new Request(url)
-                       .setContentType("application/xml")
-                       .addHeader("Authorization", getAuthorizationHeader())
-                       .addHeader("Accept", "application/xml");
+        final Request request = new Request(url).setContentType("application/xml")
+                                                .addHeader("Accept", "application/xml");
+
+        if (apiSecret == null) {
+            request.addQueryParameter("environment_key", this.environmentKey);
+        } else {
+            request.addHeader("Authorization", getAuthorizationHeader());
+        }
+
+        return request;
     }
 
     private <T> T convert(final String xml, final Class<T> type) {
