@@ -1,8 +1,6 @@
 package cc.protea.spreedly.model.internal;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "hash")
+@Root(name = "hash", strict = false)
 public class SpreedlyErrorHash {
 
     public String status;

@@ -4,26 +4,25 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyTransactionResponseDetails {
 
     public boolean         success;
     public SpreedlyMessage message;
-    @XmlElement(name = "error_code")
+    @Element(name = "error_code")
     public String          errorCode;
-    @XmlElement(name = "checkout_url")
+    @Element(name = "checkout_url")
     public String          checkoutUrl;
     /**
      * Date and time of origination.
      */
-    @XmlElement(name = "created_at")
+    @Element(name = "created_at")
     public Date            createdOn;
     /**
      * Date and time of modification.
      */
-    @XmlElement(name = "updated_at")
+    @Element(name = "updated_at")
     public Date            updatedOn;
 
     public boolean isSuccess() {

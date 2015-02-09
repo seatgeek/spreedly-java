@@ -6,41 +6,39 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
 import cc.protea.spreedly.model.internal.SpreedlyNestedMapAdapter;
 
-@XmlRootElement(name = "transaction")
+@Root(name = "transaction", strict = false)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
 
     /**
      * Any positive whole number, for example 1234 = $12.34.
      */
-    @XmlElement(name = "amount")
+    @Element(name = "amount")
     public Integer                  amountInCents;
     /**
      * Value is true if run on a Test Gateway.
      */
-    @XmlElement(name = "on_test_gateway")
+    @Element(name = "on_test_gateway")
     public boolean                  onTestGateway;
     /**
      * Date and time of origination.
      */
-    @XmlElement(name = "created_at")
+    @Element(name = "created_at")
     public Date                     createdOn;
     /**
      * Date and time of modification.
      */
-    @XmlElement(name = "updated_at")
+    @Element(name = "updated_at")
     public Date                     updatedOn;
     /**
      * ISO 4217 Currency Code e.g., USD, MXN, EUR
      */
-    @XmlElement(name = "currency_code")
+    @Element(name = "currency_code")
     public String                   currencyCode;
     /**
      * true if transaction was successful.
@@ -57,17 +55,17 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     /**
      * The type of transaction.
      */
-    @XmlElement(name = "transaction_type")
+    @Element(name = "transaction_type")
     public SpreedlyTransactionType  transactionType;
     /**
      * A tracking number that you can declare. If you don't specify an orderId, we'll pass the token of the transaction as the orderId.
      */
-    @XmlElement(name = "order_id")
+    @Element(name = "order_id")
     public String                   orderId;
     /**
      * IP address of the customer making the purchase.
      */
-    @XmlElement(name = "ip")
+    @Element(name = "ip")
     public String                   clientIpAddress;
     /**
      * Description of the product or service rendered.
@@ -80,67 +78,67 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     /**
      * Name of merchant.
      */
-    @XmlElement(name = "merchant_name_descriptor")
+    @Element(name = "merchant_name_descriptor")
     public String                   merchantNameDescriptor;
     /**
      * Location of merchant.
      */
-    @XmlElement(name = "merchant_location_descriptor")
+    @Element(name = "merchant_location_descriptor")
     public String                   merchantLocationDescriptor;
     /**
      * Fields that a gateway defines for a specific purpose but are not implemented by all gateways.
      */
     @XmlJavaTypeAdapter(SpreedlyNestedMapAdapter.class)
-    @XmlElement(name = "gateway_specific_fields")
+    @Element(name = "gateway_specific_fields")
     public Map<String, String> gatewaySpecificFields         = new HashMap<String, String>();
     @XmlJavaTypeAdapter(SpreedlyNestedMapAdapter.class)
-    @XmlElement(name = "gateway_specific_response_fields")
+    @Element(name = "gateway_specific_response_fields")
     public Map<String, String> gatewaySpecificResponseFields = new HashMap<String, String>();
-    @XmlElement(name = "gateway_transaction_id")
+    @Element(name = "gateway_transaction_id")
     public String                              gatewayTransactionId;
-    @XmlElement(name = "retain_on_success")
+    @Element(name = "retain_on_success")
     public boolean                             retainOnSuccess;
-    @XmlElement(name = "payment_method_added")
+    @Element(name = "payment_method_added")
     public boolean                             paymentMethodAdded;
     public SpreedlyMessage                     message;
-    @XmlElement(name = "gateway_token")
+    @Element(name = "gateway_token")
     public String                              gatewayToken;
     public SpreedlyTransactionResponseResponse response;
-    @XmlElement(name = "payment_method")
+    @Element(name = "payment_method")
     public SpreedlyPaymentMethod               paymentMethod;
-    @XmlElement(name = "basis_payment_method")
+    @Element(name = "basis_payment_method")
     public SpreedlyPaymentMethod               basisPaymentMethod;
-    @XmlElement(name = "api_urls")
+    @Element(name = "api_urls")
     public SpreedlyApiURLs                     apiUrls;
     /**
      * The callbackUrl specified when the transaction was created
      */
-    @XmlElement(name = "callback_url")
+    @Element(name = "callback_url")
     public String                              callbackUrl;
     /**
      * The redirectUrl specified when the transaction was created
      */
-    @XmlElement(name = "redirect_url")
+    @Element(name = "redirect_url")
     public String                              redirectUrl;
     /**
      * If a checkoutUrl is returned, you need to redirect the customer's browser to it. Doing so will land the customer on the offsite page they
      * will use to authorize payment.
      * See https://docs.spreedly.com/guides/3dsecure/ for more information.
      */
-    @XmlElement(name = "checkout_url")
+    @Element(name = "checkout_url")
     public String                              checkoutUrl;
     /**
      * If a checkoutForm is returned, you need to render and submit it. You can also parse it (it is always a valid XHTML fragment) and build your
      * own form with the same action and input fields.
      * See https://docs.spreedly.com/guides/3dsecure/ for more information.
      */
-    @XmlElement(name = "checkout_form")
+    @Element(name = "checkout_form")
     public String                              checkoutForm;
-    @XmlElement(name = "setup_response")
+    @Element(name = "setup_response")
     public SpreedlyTransactionResponseDetails  setupResponse;
-    @XmlElement(name = "redirect_response")
+    @Element(name = "redirect_response")
     public SpreedlyTransactionResponseDetails  redirectResponse;
-    @XmlElement(name = "callback_response")
+    @Element(name = "callback_response")
     public SpreedlyTransactionResponseDetails  callbackResponse;
 
     /**

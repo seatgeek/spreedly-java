@@ -1,17 +1,16 @@
 package cc.protea.spreedly.model.internal;
 
+import org.simpleframework.xml.Root;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import cc.protea.spreedly.model.SpreedlyTransactionResponse;
 
-@XmlRootElement(name = "transactions")
+@Root(name = "transactions", strict = false)
 public class SpreedlyTransactionListResponse {
 
-    @XmlElement(name = "transaction")
+    @Element(name = "transaction")
     public List<SpreedlyTransactionResponse> transactions = new ArrayList<SpreedlyTransactionResponse>();
 
 }

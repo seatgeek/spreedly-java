@@ -10,7 +10,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
@@ -157,13 +156,13 @@ class SpreedlyUtil {
         }
     }
 
-    @XmlRootElement(name = "hash")
+    @Root(name = "hash", strict = false)
     private static class SpreedlyHash {
         public String status;
         public String error;
     }
 
-    @XmlRootElement(name = "errors")
+    @Root(name = "errors", strict = false)
     private static class SpreedlyErrors {
         SpreedlyError error;
     }

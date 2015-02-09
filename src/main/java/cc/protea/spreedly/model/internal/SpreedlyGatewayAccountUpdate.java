@@ -1,16 +1,15 @@
 package cc.protea.spreedly.model.internal;
 
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import cc.protea.spreedly.model.SpreedlyGatewayAccount;
 import cc.protea.spreedly.model.SpreedlyGatewayCredential;
 
-@XmlRootElement(name = "gateway")
+@Root(name = "gateway", strict = false)
 public class SpreedlyGatewayAccountUpdate {
 
     public SpreedlyGatewayAccountUpdate() {
@@ -21,11 +20,10 @@ public class SpreedlyGatewayAccountUpdate {
         this.credentials.addAll(in.credentials);
     }
 
-    @XmlElement(name = "gateway_type")
+    @Element(name = "gateway_type")
     public String gatewayType;
 
-    @XmlElementWrapper(name = "credentials")
-    @XmlElement(name = "credential")
+    @ElementList(name = "credentials", entry = "credential")
     public List<SpreedlyGatewayCredential> credentials = new ArrayList<SpreedlyGatewayCredential>();
 
 }

@@ -1,13 +1,14 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Transient;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyGatewayProvider {
@@ -15,7 +16,7 @@ public class SpreedlyGatewayProvider {
     /**
      * A unique identifier for a gateway provider.
      */
-    @XmlElement(name = "gateway_type")
+    @Element(name = "gateway_type")
     public String                         gatewayType;
     /**
      * The full descriptive name of a gateway provider.
@@ -25,35 +26,32 @@ public class SpreedlyGatewayProvider {
      * Fields that are required to authenticate with a gateways. There may be multiple modes. These credentials are stored to be able to
      * authenticate when performing gateway transactions.
      */
-    @XmlElement(name = "auth_mode")
-    @XmlElementWrapper(name = "auth_modes")
+    @ElementList(name = "auth_modes", entry = "auth_mode")
     public List<SpreedlyGatewayAuthMode>  authModes;
     /**
      * A list of properties containing boolean values describing what properties the gateway supports.
      */
-    @XmlElement(name = "characteristics")
+    @Element(name = "characteristics")
     public SpreedlyGatewayCharacteristics characteristics;
     /**
      * List of payment method types that the gateway supports.
      */
-    @XmlElementWrapper(name = "payment_methods")
-    @XmlElement(name = "payment_method")
+    @ElementList(name = "payment_methods", entry = "payment_method")
     public List<SpreedlyGatewayPaymentMethod> paymentMethods        = new ArrayList<SpreedlyGatewayPaymentMethod>();
     /**
      * Fields that a gateway defines for a specific purpose but is not implemented by all gateways.
      */
-    @XmlElementWrapper(name = "gateway_specific_fields")
-    @XmlElement(name = "gateway_specific_field")
+    @ElementList(name = "gateway_specific_fields", entry = "gateway_specific_field")
     public List<String>                       gatewaySpecificFields = new ArrayList<String>();
     /**
      * Abbreviated country names where the gateway can process payments.
      */
-    @XmlTransient
+    @Transient
     public List<String>                       supportedCountries    = new ArrayList<String>();
     /**
      * Global regions where the gateway can process payments.
      */
-    @XmlTransient
+    @Transient
     public List<String>                       regions               = new ArrayList<String>();
     /**
      * URL of the gateway's website.
@@ -62,7 +60,7 @@ public class SpreedlyGatewayProvider {
     /**
      * Name of the company that operates the gateway provider.
      */
-    @XmlElement(name = "company_name")
+    @Element(name = "company_name")
     public String companyName;
 
     /**
@@ -210,12 +208,12 @@ public class SpreedlyGatewayProvider {
 
     // Private XML hassles below here
 
-    @XmlElement(name = "regions")
+    @Element(name = "regions")
     private void setRegionString(final String in) {
         split(in, regions);
     }
 
-    @XmlElement(name = "supported_countries")
+    @Element(name = "supported_countries")
     private void setSupportedCountryString(final String in) {
         split(in, supportedCountries);
     }

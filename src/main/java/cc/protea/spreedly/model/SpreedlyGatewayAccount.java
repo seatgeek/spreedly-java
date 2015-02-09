@@ -1,38 +1,35 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "gateway")
+@Root(name = "gateway", strict = false)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyGatewayAccount {
 
     public String token;
-    @XmlElement(name = "gateway_type")
+    @Element(name = "gateway_type")
     public String gatewayType;
     public String name;
     public SpreedlyGatewayCharacteristics     characteristics       = new SpreedlyGatewayCharacteristics();
-    @XmlElementWrapper(name = "credentials")
-    @XmlElement(name = "credential")
+    @ElementList(name = "credentials", entry = "credential")
     public List<SpreedlyGatewayCredential>    credentials           = new ArrayList<SpreedlyGatewayCredential>();
-    @XmlElementWrapper(name = "gateway_specific_fields")
-    @XmlElement(name = "gateway_specific_field")
+    @ElementList(entry = "gateway_specific_field", name = "gateway_specific_fields")
     public List<String>                       gatewaySpecificFields = new ArrayList<String>();
-    @XmlElementWrapper(name = "payment_methods")
-    @XmlElement(name = "payment_method")
+    @ElementList(entry = "payment_method", name = "payment_methods")
     public List<SpreedlyGatewayPaymentMethod> paymentMethods        = new ArrayList<SpreedlyGatewayPaymentMethod>();
     public SpreedlyGatewayAccountState state;
     public boolean                     redacted;
-    @XmlElement(name = "created_at")
+    @Element(name = "created_at")
     public Date                        createdOn;
-    @XmlElement(name = "updated_at")
+    @Element(name = "updated_at")
     public Date                        updatedOn;
 
     public String getToken() {
