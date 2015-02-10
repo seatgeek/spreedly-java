@@ -58,30 +58,32 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     /**
      * A tracking number that you can declare. If you don't specify an orderId, we'll pass the token of the transaction as the orderId.
      */
-    @Element(name = "order_id")
+    @Element(name = "order_id", required = false)
     public String                   orderId;
     /**
      * IP address of the customer making the purchase.
      */
-    @Element(name = "ip")
+    @Element(name = "ip", required = false)
     public String                   clientIpAddress;
     /**
      * Description of the product or service rendered.
      */
+    @Element(required = false)
     public String                   description;
     /**
      * Customer email address.
      */
+    @Element(required = false)
     public String                   email;
     /**
      * Name of merchant.
      */
-    @Element(name = "merchant_name_descriptor")
+    @Element(name = "merchant_name_descriptor", required = false)
     public String                   merchantNameDescriptor;
     /**
      * Location of merchant.
      */
-    @Element(name = "merchant_location_descriptor")
+    @Element(name = "merchant_location_descriptor", required = false)
     public String                   merchantLocationDescriptor;
     /**
      * Fields that a gateway defines for a specific purpose but are not implemented by all gateways.
@@ -92,9 +94,9 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     public Map<String, String> gatewaySpecificResponseFields = new HashMap<String, String>();
     @Element(name = "gateway_transaction_id")
     public String                              gatewayTransactionId;
-    @Element(name = "retain_on_success")
+    @Element(name = "retain_on_success", required = false)
     public boolean                             retainOnSuccess;
-    @Element(name = "payment_method_added")
+    @Element(name = "payment_method_added", required = false)
     public boolean                             paymentMethodAdded;
     public SpreedlyMessage                     message;
     @Element(name = "gateway_token")
@@ -140,6 +142,7 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     /**
      * @return Any positive whole number, for example 1234 = $12.34.
      */
+
     public Integer getAmountInCents() {
         return amountInCents;
     }

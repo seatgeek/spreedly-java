@@ -11,7 +11,7 @@ public enum SpreedlyGatewayPaymentMethod {
     BANK_ACCOUNT("bank_account"),
     PAYPAL("paypal");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyGatewayPaymentMethod(String apiValue) {
         this.apiValue = apiValue;

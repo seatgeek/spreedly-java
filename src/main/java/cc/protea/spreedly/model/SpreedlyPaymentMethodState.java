@@ -11,7 +11,7 @@ public enum SpreedlyPaymentMethodState {
     RETAINED("retained"),
     REDACTED("redacted");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyPaymentMethodState(String apiValue) {
         this.apiValue = apiValue;

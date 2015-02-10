@@ -10,7 +10,7 @@ public enum SpreedlyGatewayAccountState {
     RETAINED("retained"),
     REDACTED("redacted");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyGatewayAccountState(String apiValue) {
         this.apiValue = apiValue;

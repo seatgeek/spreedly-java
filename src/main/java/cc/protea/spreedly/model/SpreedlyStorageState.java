@@ -11,7 +11,7 @@ public enum SpreedlyStorageState {
     CACHED("cached"),
     REDACTED("redacted");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyStorageState(String apiValue) {
         this.apiValue = apiValue;

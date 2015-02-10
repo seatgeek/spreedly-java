@@ -15,7 +15,7 @@ public enum SpreedlyCardType {
     JCB("jcb"),
     DINERS_CLUB("diners_club");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyCardType(String apiValue) {
         this.apiValue = apiValue;

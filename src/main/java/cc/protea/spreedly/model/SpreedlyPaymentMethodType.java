@@ -12,7 +12,7 @@ public enum SpreedlyPaymentMethodType {
     DWOLLA("dwolla"),
     PAYPAL("paypal");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyPaymentMethodType(String apiValue) {
         this.apiValue = apiValue;

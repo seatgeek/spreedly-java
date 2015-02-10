@@ -16,7 +16,7 @@ public enum SpreedlyCvvResponse {
     ISSUER_UNABLE_TO_PROCESS_REQUEST("U"),
     CARD_DOES_NOT_SUPPORT_VERIFICATION("X");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyCvvResponse(String apiValue) {
         this.apiValue = apiValue;

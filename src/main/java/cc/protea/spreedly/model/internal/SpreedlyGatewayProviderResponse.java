@@ -1,5 +1,8 @@
 package cc.protea.spreedly.model.internal;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 import java.util.ArrayList;
 import java.util.List;
 

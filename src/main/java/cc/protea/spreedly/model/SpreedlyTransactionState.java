@@ -39,7 +39,7 @@ public enum SpreedlyTransactionState {
      */
     GATEWAY_PROCESSING_RESULT_UNKNOWN("gateway_processing_result_unknown");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyTransactionState(String apiValue) {
         this.apiValue = apiValue;

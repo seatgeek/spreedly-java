@@ -1,8 +1,8 @@
 <transaction>
     <amount type="integer">80</amount>
     <on_test_gateway type="boolean">true</on_test_gateway>
-    <created_at type="dateTime">2014-11-11T01:08:44Z</created_at>
-    <updated_at type="dateTime">2014-11-11T01:08:44Z</updated_at>
+    <created_at type="dateTime">2014-11-10T13:26:19-05:00</created_at>
+    <updated_at type="dateTime">2015-01-08T16:04:39-05:00</updated_at>
     <currency_code>USD</currency_code>
     <succeeded type="boolean">true</succeeded>
     <state>succeeded</state>
@@ -46,8 +46,8 @@
         <error_code></error_code>
         <error_detail nil="true"/>
         <cancelled type="boolean">false</cancelled>
-        <created_at type="dateTime">2014-11-11T01:08:44Z</created_at>
-        <updated_at type="dateTime">2014-11-11T01:08:44Z</updated_at>
+        <created_at type="dateTime">2014-11-10T16:28:44-05:00</created_at>
+        <updated_at type="dateTime">2014-11-10T16:28:44-05:00</updated_at>
     </response>
     <reference_token>KL7jgc4iy3MSMXfmqUNLVSHXmxN</reference_token>
     <api_urls>

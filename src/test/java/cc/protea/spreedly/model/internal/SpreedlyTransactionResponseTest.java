@@ -4,16 +4,14 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.simpleframework.xml.Serializer;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import cc.protea.spreedly.model.SpreedlyTransactionResponse;
+import cc.protea.util.xml.XmlUtils;
 
 // Example taken from https://docs.spreedly.com/payment-gateways/paypal/
 //
@@ -21,23 +19,23 @@ import cc.protea.spreedly.model.SpreedlyTransactionResponse;
 
 public class SpreedlyTransactionResponseTest {
 
-    SpreedlyNestedMapAdapter adapter;
-    JAXBContext              context;
-    Unmarshaller             unmarshaller;
-    File                     xml;
+    File xml;
+
+    private Serializer persister;
 
     @Before
-    public void before() throws JAXBException, URISyntaxException {
-        context = JAXBContext.newInstance(SpreedlyTransactionResponse.class);
-        unmarshaller = context.createUnmarshaller();
-        adapter = new SpreedlyNestedMapAdapter();
+    public void before() throws URISyntaxException {
+        persister = XmlUtils.getSerializer();
+
         URL url = getClass().getResource("/SpreedlyTransactionResponse.xml");
         xml = new File(url.toURI());
     }
 
     @Test
-    public void test() throws JAXBException {
-        SpreedlyTransactionResponse response = (SpreedlyTransactionResponse) unmarshaller.unmarshal(xml);
+    public void test() throws Exception {
+        // 2014-11-10T16:28:44-05:00
+
+        SpreedlyTransactionResponse response = persister.read(SpreedlyTransactionResponse.class, xml, false);
         Assert.assertNotNull(response);
         Assert.assertEquals("1vcqQrU0d9f4NB5vdnx5wsoaAss", response.token);
         Assert.assertNotNull(response.gatewaySpecificResponseFields);

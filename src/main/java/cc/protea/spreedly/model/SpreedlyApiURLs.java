@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 
 public class SpreedlyApiURLs {
 
-    @Element(name = "callback_conversations")
+    @Element(name = "callback_conversations", required = false)
     public String callbackConversations;
 
     public String getCallbackConversations() {

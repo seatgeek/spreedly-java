@@ -4,18 +4,16 @@ import org.simpleframework.xml.convert.Convert;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
-
 @Convert(SpreedlyTransactionType.Converter.class)
 public enum SpreedlyTransactionType {
 
     AUTHORIZATION("Authorization"),
     CAPTURE("Capture"),
     CREDIT("Credit"),
-    RECACHE_SENSITIVE_DATA("RecacheSensitiveData");
+    RECACHE_SENSITIVE_DATA("RecacheSensitiveData"),
+    PURCHASE_VIA_REFERENCE("PurchaseViaReference");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyTransactionType(String apiValue) {
         this.apiValue = apiValue;

@@ -34,7 +34,7 @@ public enum SpreedlyAvsResponse {
     ADDRESS_AND_POSTAL_CODE_MATCH_Y("Y"),
     ADDRESS_MISMATCH_POSTAL_CODE_MATCH_Z("Z");
 
-    private final String apiValue;
+    public final String apiValue;
 
     SpreedlyAvsResponse(String apiValue) {
         this.apiValue = apiValue;

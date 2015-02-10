@@ -1,5 +1,7 @@
 package cc.protea.spreedly.model.internal;
 
+import org.simpleframework.xml.Element;
+
 import cc.protea.spreedly.model.SpreedlyCreditCard;
 
 public class SpreedlyPaymentMethodCreateRequest {
