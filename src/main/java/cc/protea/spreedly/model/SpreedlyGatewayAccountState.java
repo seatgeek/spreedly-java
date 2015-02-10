@@ -1,14 +1,40 @@
 package cc.protea.spreedly.model;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import org.simpleframework.xml.convert.Convert;
+import org.simpleframework.xml.stream.InputNode;
+import org.simpleframework.xml.stream.OutputNode;
 
-@XmlType
-@XmlEnum(String.class)
+@Convert(SpreedlyGatewayAccountState.Converter.class)
 public enum SpreedlyGatewayAccountState {
 
-    @XmlEnumValue("retained")RETAINED,
-    @XmlEnumValue("redacted")REDACTED
+    RETAINED("retained"),
+    REDACTED("redacted");
 
+    private final String apiValue;
+
+    SpreedlyGatewayAccountState(String apiValue) {
+        this.apiValue = apiValue;
+    }
+
+    public static SpreedlyGatewayAccountState fromApiValue(String apiValue) {
+        for (SpreedlyGatewayAccountState spreedlyGatewayAccountState : values()) {
+            if (spreedlyGatewayAccountState.apiValue.equals(apiValue)) {
+                return spreedlyGatewayAccountState;
+            }
+        }
+
+        return null;
+    }
+
+    public static class Converter implements org.simpleframework.xml.convert.Converter<SpreedlyGatewayAccountState> {
+        @Override
+        public SpreedlyGatewayAccountState read(InputNode inputNode) throws Exception {
+            return fromApiValue(inputNode.getValue());
+        }
+
+        @Override
+        public void write(OutputNode outputNode, SpreedlyGatewayAccountState spreedlyGatewayAccountState) throws Exception {
+            outputNode.setValue(spreedlyGatewayAccountState.apiValue);
+        }
+    }
 }

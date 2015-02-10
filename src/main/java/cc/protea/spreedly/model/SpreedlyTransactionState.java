@@ -1,43 +1,70 @@
 package cc.protea.spreedly.model;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import org.simpleframework.xml.convert.Convert;
+import org.simpleframework.xml.stream.InputNode;
+import org.simpleframework.xml.stream.OutputNode;
 
-@XmlType
-@XmlEnum(String.class)
+@Convert(SpreedlyTransactionState.Converter.class)
 public enum SpreedlyTransactionState {
 
     /**
      * The transaction has succeeded and funds have been received.
      */
-    @XmlEnumValue("succeeded")SUCCEEDED,
+    SUCCEEDED("succeeded"),
     /**
      * The transaction has been accepted. Funds have not yet been received.
      */
-    @XmlEnumValue("processing")PROCESSING,
+    PROCESSING("processing"),
     /**
      * The transaction needs further processing which typically involves redirecting the
      * customer to a redirect_url to allow them to specify a payment method.
      */
-    @XmlEnumValue("pending")PENDING,
+    PENDING("pending"),
     /**
      * The transaction failed. This could be caused by a number of things such as the payment method
      * not being valid, the payment method being redacted, etc.
      */
-    @XmlEnumValue("failed")FAILED,
+    FAILED("failed"),
     /**
      * The transaction failed because the attempt to setup the transaction on the offsite gateway failed.
      */
-    @XmlEnumValue("gateway_setup_failed")GATEWAY_SETUP_FAILED,
+    GATEWAY_SETUP_FAILED("gateway_setup_failed"),
     /**
      * The transaction failed because the gateway declined the charge for some reason.
      */
-    @XmlEnumValue("gateway_processing_failed")GATEWAY_PROCESSING_FAILED,
+    GATEWAY_PROCESSING_FAILED("gateway_processing_failed"),
     /**
      * We had difficulty communicating with the service and we're unsure what the result
      * of the operation was. (timeouts, connection errors, etc).
      */
-    @XmlEnumValue("gateway_processing_result_unknown")GATEWAY_PROCESSING_RESULT_UNKNOWN
+    GATEWAY_PROCESSING_RESULT_UNKNOWN("gateway_processing_result_unknown");
 
+    private final String apiValue;
+
+    SpreedlyTransactionState(String apiValue) {
+        this.apiValue = apiValue;
+    }
+
+
+    public static SpreedlyTransactionState fromApiValue(String apiValue) {
+        for (SpreedlyTransactionState spreedlyTransactionState : values()) {
+            if (spreedlyTransactionState.apiValue.equals(apiValue)) {
+                return spreedlyTransactionState;
+            }
+        }
+
+        return null;
+    }
+
+    public static class Converter implements org.simpleframework.xml.convert.Converter<SpreedlyTransactionState> {
+        @Override
+        public SpreedlyTransactionState read(InputNode inputNode) throws Exception {
+            return fromApiValue(inputNode.getValue());
+        }
+
+        @Override
+        public void write(OutputNode outputNode, SpreedlyTransactionState spreedlyspreedlyTransactionStateAccountState) throws Exception {
+            outputNode.setValue(spreedlyspreedlyTransactionStateAccountState.apiValue);
+        }
+    }
 }

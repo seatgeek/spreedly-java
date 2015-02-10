@@ -2,10 +2,6 @@ package cc.protea.spreedly.model;
 
 import org.simpleframework.xml.Element;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyCreditCard {
 
     @Element(name = "first_name")

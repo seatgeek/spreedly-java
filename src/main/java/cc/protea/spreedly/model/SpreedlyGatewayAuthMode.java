@@ -1,19 +1,16 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  * Describes fields that are required to authenticate with a gateways. There may be multiple modes.
  *
  * @author rjstanford
  */
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyGatewayAuthMode {
 
     /**

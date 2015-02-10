@@ -1,15 +1,41 @@
 package cc.protea.spreedly.model;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import org.simpleframework.xml.convert.Convert;
+import org.simpleframework.xml.stream.InputNode;
+import org.simpleframework.xml.stream.OutputNode;
 
-@XmlType
-@XmlEnum(String.class)
+@Convert(SpreedlyGatewayPaymentMethod.Converter.class)
 public enum SpreedlyGatewayPaymentMethod {
 
-    @XmlEnumValue("credit_card")CREDIT_CARD,
-    @XmlEnumValue("bank_account")BANK_ACCOUNT,
-    @XmlEnumValue("paypal")PAYPAL
+    CREDIT_CARD("credit_card"),
+    BANK_ACCOUNT("bank_account"),
+    PAYPAL("paypal");
 
+    private final String apiValue;
+
+    SpreedlyGatewayPaymentMethod(String apiValue) {
+        this.apiValue = apiValue;
+    }
+
+    public static SpreedlyGatewayPaymentMethod fromApiValue(String apiValue) {
+        for (SpreedlyGatewayPaymentMethod spreedlyGatewayPaymentMethod : values()) {
+            if (spreedlyGatewayPaymentMethod.apiValue.equals(apiValue)) {
+                return spreedlyGatewayPaymentMethod;
+            }
+        }
+
+        return null;
+    }
+
+    public static class Converter implements org.simpleframework.xml.convert.Converter<SpreedlyGatewayPaymentMethod> {
+        @Override
+        public SpreedlyGatewayPaymentMethod read(InputNode inputNode) throws Exception {
+            return fromApiValue(inputNode.getValue());
+        }
+
+        @Override
+        public void write(OutputNode outputNode, SpreedlyGatewayPaymentMethod spreedlyGatewayPaymentMethod) throws Exception {
+            outputNode.setValue(spreedlyGatewayPaymentMethod.apiValue);
+        }
+    }
 }

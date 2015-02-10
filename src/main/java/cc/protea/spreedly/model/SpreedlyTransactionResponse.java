@@ -1,18 +1,16 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementMap;
+import org.simpleframework.xml.Root;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
-import cc.protea.spreedly.model.internal.SpreedlyNestedMapAdapter;
 
 @Root(name = "transaction", strict = false)
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
 
     /**
@@ -88,11 +86,9 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     /**
      * Fields that a gateway defines for a specific purpose but are not implemented by all gateways.
      */
-    @XmlJavaTypeAdapter(SpreedlyNestedMapAdapter.class)
-    @Element(name = "gateway_specific_fields")
+    @ElementMap(name = "gateway_specific_fields", attribute = false)
     public Map<String, String> gatewaySpecificFields         = new HashMap<String, String>();
-    @XmlJavaTypeAdapter(SpreedlyNestedMapAdapter.class)
-    @Element(name = "gateway_specific_response_fields")
+    @ElementMap(name = "gateway_specific_response_fields", attribute = false)
     public Map<String, String> gatewaySpecificResponseFields = new HashMap<String, String>();
     @Element(name = "gateway_transaction_id")
     public String                              gatewayTransactionId;

@@ -1,9 +1,7 @@
 package cc.protea.spreedly.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import org.simpleframework.xml.Element;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyGatewayCharacteristics {
 
     @Element(name = "supports_purchase")

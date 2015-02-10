@@ -1,16 +1,15 @@
 package cc.protea.spreedly;
 
-import java.io.ByteArrayInputStream;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
 import java.io.IOException;
 import java.io.StringWriter;
 
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
 
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
 import cc.protea.util.http.HttpClient;
@@ -136,11 +135,10 @@ class SpreedlyUtil {
             return (T) xml;
         }
         try {
-            JAXBContext context = JAXBContext.newInstance(type);
-            Unmarshaller un = context.createUnmarshaller();
-            ByteArrayInputStream is = new ByteArrayInputStream(xml.getBytes());
-            return (T) un.unmarshal(is);
-        } catch (JAXBException e) {
+            Serializer persister = new Persister();
+            return persister.read(type, xml, !handleErrors);
+        } catch (Exception e) {
+            // Persister.read throws generic Exception
             if (!handleErrors) {
                 throw new SpreedlyException(e);
             }
@@ -164,13 +162,14 @@ class SpreedlyUtil {
 
     @Root(name = "errors", strict = false)
     private static class SpreedlyErrors {
+        @Element
         SpreedlyError error;
     }
 
     private static class SpreedlyError {
-        @XmlValue
+        @Element
         public String error;
-        @XmlAttribute(name = "key")
+        @Attribute(name = "key")
         public String key;
     }
 
@@ -197,12 +196,15 @@ class SpreedlyUtil {
             if (object == null) {
                 return "";
             }
-            JAXBContext context = JAXBContext.newInstance(object.getClass());
-            Marshaller marshaller = context.createMarshaller();
+
+            Serializer persister = new Persister();
             StringWriter writer = new StringWriter();
-            marshaller.marshal(object, writer);
+
+            persister.write(object, writer);
+
             return writer.toString();
-        } catch (JAXBException e) {
+        } catch (Exception e) {
+            // Persister.write throws generic Exception
             throw new SpreedlyException(e);
         }
     }

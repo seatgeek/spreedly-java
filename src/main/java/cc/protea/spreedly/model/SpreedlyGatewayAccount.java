@@ -1,5 +1,6 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -7,11 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 @Root(name = "gateway", strict = false)
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyGatewayAccount {
 
     public String token;

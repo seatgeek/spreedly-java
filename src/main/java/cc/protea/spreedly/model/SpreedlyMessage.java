@@ -1,23 +1,20 @@
 package cc.protea.spreedly.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SpreedlyMessage {
 
     /**
      * The constant Spreedly key representing the results, useful for translation.
      */
-    @XmlAttribute
+    @Attribute
     public String key;
 
     /**
      * A brief description of the results of the transaction.
      */
-    @XmlValue
+    @Element
     public String message;
 
     /**
