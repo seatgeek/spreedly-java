@@ -16,7 +16,7 @@ public class SpreedlyGatewayAuthMode {
     /**
      * Spreedly assigned word identifying the collection of credentials.
      */
-    @Element(name = "auth_mode_type")
+    @Element(name = "auth_mode_type", required = false)
     public String type;
 
     /**

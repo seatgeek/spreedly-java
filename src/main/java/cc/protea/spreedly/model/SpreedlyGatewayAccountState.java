@@ -1,9 +1,11 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
+@Root
 @Convert(SpreedlyGatewayAccountState.Converter.class)
 public enum SpreedlyGatewayAccountState {
 

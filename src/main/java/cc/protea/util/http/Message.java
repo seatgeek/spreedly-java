@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.ws.Response;
-
 /*
  Copyright 2012 Joe J. Ernst
 
@@ -27,7 +25,7 @@ import javax.xml.ws.Response;
  * This class represents an HTTP Message, which could either be a Request or a Response.  Message is an abstract
  * class that contains fields and methods that are common to both types of Messages.
  *
- * @param <T> A Type that extends Message (either {@link Request} or {@link Response})
+ * @param <T> A Type that extends Message (either {@link cc.protea.util.http.Request} or {@link cc.protea.util.http.Response})
  */
 public abstract class Message<T extends Message<T>> {
     Map<String, List<String>> headers = new HashMap<String, List<String>>();

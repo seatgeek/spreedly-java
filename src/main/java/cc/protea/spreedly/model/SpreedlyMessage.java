@@ -1,7 +1,7 @@
 package cc.protea.spreedly.model;
 
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Text;
 
 public class SpreedlyMessage {
 
@@ -14,7 +14,7 @@ public class SpreedlyMessage {
     /**
      * A brief description of the results of the transaction.
      */
-    @Element
+    @Text
     public String message;
 
     /**

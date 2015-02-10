@@ -4,7 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.simpleframework.xml.Serializer;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -21,11 +20,8 @@ public class SpreedlyTransactionResponseTest {
 
     File xml;
 
-    private Serializer persister;
-
     @Before
     public void before() throws URISyntaxException {
-        persister = XmlUtils.getSerializer();
 
         URL url = getClass().getResource("/SpreedlyTransactionResponse.xml");
         xml = new File(url.toURI());
@@ -35,7 +31,8 @@ public class SpreedlyTransactionResponseTest {
     public void test() throws Exception {
         // 2014-11-10T16:28:44-05:00
 
-        SpreedlyTransactionResponse response = persister.read(SpreedlyTransactionResponse.class, xml, false);
+        SpreedlyTransactionResponse response = XmlUtils.parse(SpreedlyTransactionResponse.class, xml);
+
         Assert.assertNotNull(response);
         Assert.assertEquals("1vcqQrU0d9f4NB5vdnx5wsoaAss", response.token);
         Assert.assertNotNull(response.gatewaySpecificResponseFields);

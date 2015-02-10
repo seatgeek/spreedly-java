@@ -6,6 +6,6 @@ import org.simpleframework.xml.Root;
 @Root(name = "gateway", strict = false)
 public class SpreedlyPaymentMethodUpdate {
 
-    @Element(name = "remove_from_gateway")
+    @Element(name = "remove_from_gateway", required = false)
     public String gatewayAccountToken;
 }

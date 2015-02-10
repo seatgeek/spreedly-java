@@ -12,26 +12,26 @@ import java.util.List;
 public class SpreedlyPaymentMethod {
 
     public String                    token;
-    @Element(name = "created_at")
+    @Element(name = "created_at", required = false)
     public Date                      createdOn;
-    @Element(name = "updated_at")
+    @Element(name = "updated_at", required = false)
     public Date                      updatedOn;
     public String                    email;
     public String                    data;
-    @Element(name = "storage_state")
+    @Element(name = "storage_state", required = false)
     public SpreedlyStorageState      storageState;
-    @Element(name = "third_party_token")
+    @Element(name = "third_party_token", required = false)
     public String                    thirdPartyToken;
     public boolean                   test;
-    @Element(name = "last_four_digits")
+    @Element(name = "last_four_digits", required = false)
     public String                    lastFourDigits;
-    @Element(name = "first_six_digits")
+    @Element(name = "first_six_digits", required = false)
     public String                    firstSixDigits;
-    @Element(name = "card_type")
+    @Element(name = "card_type", required = false)
     public SpreedlyCardType          cardType;
-    @Element(name = "first_name")
+    @Element(name = "first_name", required = false)
     public String                    firstName;
-    @Element(name = "last_name")
+    @Element(name = "last_name", required = false)
     public String                    lastName;
     public Integer                   month;
     public Integer                   year;
@@ -41,33 +41,33 @@ public class SpreedlyPaymentMethod {
     public String                    state;
     public String                    zip;
     public String                    country;
-    @Element(name = "phone_number")
+    @Element(name = "phone_number", required = false)
     public String                    phoneNumber;
-    @Element(name = "shipping_address1")
+    @Element(name = "shipping_address1", required = false)
     public String                    shippingAddress1;
-    @Element(name = "shipping_address2")
+    @Element(name = "shipping_address2", required = false)
     public String                    shippingAddress2;
-    @Element(name = "shipping_city")
+    @Element(name = "shipping_city", required = false)
     public String                    shippingCity;
-    @Element(name = "shipping_state")
+    @Element(name = "shipping_state", required = false)
     public String                    shippingState;
-    @Element(name = "shipping_zip")
+    @Element(name = "shipping_zip", required = false)
     public String                    shippingZip;
-    @Element(name = "shipping_country")
+    @Element(name = "shipping_country", required = false)
     public String                    shippingCountry;
-    @Element(name = "shipping_phone_number")
+    @Element(name = "shipping_phone_number", required = false)
     public String                    shippingPhoneNumber;
-    @Element(name = "full_name")
+    @Element(name = "full_name", required = false)
     public String                    fullName;
-    @Element(name = "eligible_for_card_updater")
+    @Element(name = "eligible_for_card_updater", required = false)
     public boolean                   eligibleForCardUpdater;
-    @Element(name = "payment_method_type")
+    @Element(name = "payment_method_type", required = false)
     public SpreedlyPaymentMethodType paymentMethodType;
-    @Element(name = "verification_value")
+    @Element(name = "verification_value", required = false)
     public String                    verificationValue;
     @ElementList(name = "errors", entry = "error")
     public List<String> errors = new ArrayList<String>();
-    @Element(name = "api_urls")
+    @Element(name = "api_urls", required = false)
     public SpreedlyApiURLs apiUrls;
     public String          number;
 

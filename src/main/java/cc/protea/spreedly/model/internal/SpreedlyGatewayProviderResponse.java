@@ -11,7 +11,7 @@ import cc.protea.spreedly.model.SpreedlyGatewayProvider;
 @Root(name = "gateways", strict = false)
 public class SpreedlyGatewayProviderResponse {
 
-    @Element(name = "gateway")
+    @Element(name = "gateway", required = false)
     public List<SpreedlyGatewayProvider> gateways = new ArrayList<SpreedlyGatewayProvider>();
 
 }

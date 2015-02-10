@@ -12,7 +12,7 @@ import java.util.List;
 public class SpreedlyGatewayAccount {
 
     public String token;
-    @Element(name = "gateway_type")
+    @Element(name = "gateway_type", required = false)
     public String gatewayType;
     public String name;
     public SpreedlyGatewayCharacteristics     characteristics       = new SpreedlyGatewayCharacteristics();
@@ -24,9 +24,9 @@ public class SpreedlyGatewayAccount {
     public List<SpreedlyGatewayPaymentMethod> paymentMethods        = new ArrayList<SpreedlyGatewayPaymentMethod>();
     public SpreedlyGatewayAccountState state;
     public boolean                     redacted;
-    @Element(name = "created_at")
+    @Element(name = "created_at", required = false)
     public Date                        createdOn;
-    @Element(name = "updated_at")
+    @Element(name = "updated_at", required = false)
     public Date                        updatedOn;
 
     public String getToken() {

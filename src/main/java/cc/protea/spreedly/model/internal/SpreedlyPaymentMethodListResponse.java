@@ -11,7 +11,7 @@ import cc.protea.spreedly.model.SpreedlyPaymentMethod;
 @Root(name = "payment_methods", strict = false)
 public class SpreedlyPaymentMethodListResponse {
 
-    @Element(name = "payment_method")
+    @Element(name = "payment_method", required = false)
     public List<SpreedlyPaymentMethod> paymentMethods = new ArrayList<SpreedlyPaymentMethod>();
 
 }

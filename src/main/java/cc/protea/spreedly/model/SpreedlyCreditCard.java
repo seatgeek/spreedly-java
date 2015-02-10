@@ -4,20 +4,20 @@ import org.simpleframework.xml.Element;
 
 public class SpreedlyCreditCard {
 
-    @Element(name = "first_name")
+    @Element(name = "first_name", required = false)
     public String           firstName;
-    @Element(name = "last_name")
+    @Element(name = "last_name", required = false)
     public String           lastName;
-    @Element(name = "full_name")
+    @Element(name = "full_name", required = false)
     public String           fullName;
     public String           number;
-    @Element(name = "track_data")
+    @Element(name = "track_data", required = false)
     public String           trackData;
     public Integer          month;
     public Integer          year;
-    @Element(name = "verification_value")
+    @Element(name = "verification_value", required = false)
     public String           verificationValue;
-    @Element(name = "card_type")
+    @Element(name = "card_type", required = false)
     public SpreedlyCardType cardType;
     public String           address1;
     public String           address2;
@@ -25,21 +25,21 @@ public class SpreedlyCreditCard {
     public String           state;
     public String           zip;
     public String           country;
-    @Element(name = "phone_number")
+    @Element(name = "phone_number", required = false)
     public String           phoneNumber;
-    @Element(name = "shipping_address1")
+    @Element(name = "shipping_address1", required = false)
     public String           shippingAddress1;
-    @Element(name = "shipping_address2")
+    @Element(name = "shipping_address2", required = false)
     public String           shippingAddress2;
-    @Element(name = "shipping_city")
+    @Element(name = "shipping_city", required = false)
     public String           shippingCity;
-    @Element(name = "shipping_state")
+    @Element(name = "shipping_state", required = false)
     public String           shippingState;
-    @Element(name = "shipping_zip")
+    @Element(name = "shipping_zip", required = false)
     public String           shippingZip;
-    @Element(name = "shipping_country")
+    @Element(name = "shipping_country", required = false)
     public String           shippingCountry;
-    @Element(name = "shipping_phone_number")
+    @Element(name = "shipping_phone_number", required = false)
     public String           shippingPhoneNumber;
     public String           email;
     public Object           data;

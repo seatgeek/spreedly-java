@@ -8,19 +8,19 @@ public class SpreedlyTransactionResponseDetails {
 
     public boolean         success;
     public SpreedlyMessage message;
-    @Element(name = "error_code")
+    @Element(name = "error_code", required = false)
     public String          errorCode;
-    @Element(name = "checkout_url")
+    @Element(name = "checkout_url", required = false)
     public String          checkoutUrl;
     /**
      * Date and time of origination.
      */
-    @Element(name = "created_at")
+    @Element(name = "created_at", required = false)
     public Date            createdOn;
     /**
      * Date and time of modification.
      */
-    @Element(name = "updated_at")
+    @Element(name = "updated_at", required = false)
     public Date            updatedOn;
 
     public boolean isSuccess() {

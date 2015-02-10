@@ -4,35 +4,35 @@ import org.simpleframework.xml.Element;
 
 public class SpreedlyGatewayCharacteristics {
 
-    @Element(name = "supports_purchase")
+    @Element(name = "supports_purchase", required = false)
     public boolean supportsPurchase;
-    @Element(name = "supports_authorize")
+    @Element(name = "supports_authorize", required = false)
     public boolean supportsAuthorize;
-    @Element(name = "supports_capture")
+    @Element(name = "supports_capture", required = false)
     public boolean supportsCapture;
-    @Element(name = "supports_credit")
+    @Element(name = "supports_credit", required = false)
     public boolean supportsCredit;
-    @Element(name = "supports_general_credit")
+    @Element(name = "supports_general_credit", required = false)
     public boolean supportsGeneralCredit;
-    @Element(name = "supports_void")
+    @Element(name = "supports_void", required = false)
     public boolean supportsVoid;
-    @Element(name = "supports_verify")
+    @Element(name = "supports_verify", required = false)
     public boolean supportsVerify;
-    @Element(name = "supports_reference_purchase")
+    @Element(name = "supports_reference_purchase", required = false)
     public boolean supportsReferencePurchase;
-    @Element(name = "supports_purchase_via_preauthorization")
+    @Element(name = "supports_purchase_via_preauthorization", required = false)
     public boolean supportsPurchaseViaPreauthorization;
-    @Element(name = "supports_offsite_purchase")
+    @Element(name = "supports_offsite_purchase", required = false)
     public boolean supportsOffsitePurchase;
-    @Element(name = "supports_offsite_authorize")
+    @Element(name = "supports_offsite_authorize", required = false)
     public boolean supportsOffsiteAuthorize;
-    @Element(name = "supports_3dsecure_purchase")
+    @Element(name = "supports_3dsecure_purchase", required = false)
     public boolean supports3DSecurePurchase;
-    @Element(name = "supports_3dsecure_authorize")
+    @Element(name = "supports_3dsecure_authorize", required = false)
     public boolean supports3DSecureAuthorize;
-    @Element(name = "supports_store")
+    @Element(name = "supports_store", required = false)
     public boolean supportsStore;
-    @Element(name = "supports_remove")
+    @Element(name = "supports_remove", required = false)
     public boolean supportsRemove;
 
     public boolean isSupportsPurchase() {

@@ -21,7 +21,7 @@ public class SpreedlyGatewayAccountUpdate {
         this.credentials.addAll(in.credentials);
     }
 
-    @Element(name = "gateway_type")
+    @Element(name = "gateway_type", required = false)
     public String gatewayType;
 
     @ElementList(name = "credentials", entry = "credential")

@@ -3,8 +3,6 @@ package cc.protea.spreedly;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -15,6 +13,7 @@ import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
 import cc.protea.util.http.HttpClient;
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
+import cc.protea.util.xml.XmlUtils;
 
 class SpreedlyUtil {
 
@@ -135,8 +134,7 @@ class SpreedlyUtil {
             return (T) xml;
         }
         try {
-            Serializer persister = new Persister();
-            return persister.read(type, xml, !handleErrors);
+            return XmlUtils.parse(type, xml);
         } catch (Exception e) {
             // Persister.read throws generic Exception
             if (!handleErrors) {
@@ -197,10 +195,9 @@ class SpreedlyUtil {
                 return "";
             }
 
-            Serializer persister = new Persister();
             StringWriter writer = new StringWriter();
 
-            persister.write(object, writer);
+            XmlUtils.write(object, writer);
 
             return writer.toString();
         } catch (Exception e) {

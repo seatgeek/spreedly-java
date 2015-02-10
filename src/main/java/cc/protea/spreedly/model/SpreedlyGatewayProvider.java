@@ -12,7 +12,7 @@ public class SpreedlyGatewayProvider {
     /**
      * A unique identifier for a gateway provider.
      */
-    @Element(name = "gateway_type")
+    @Element(name = "gateway_type", required = false)
     public String                         gatewayType;
     /**
      * The full descriptive name of a gateway provider.
@@ -27,7 +27,7 @@ public class SpreedlyGatewayProvider {
     /**
      * A list of properties containing boolean values describing what properties the gateway supports.
      */
-    @Element(name = "characteristics")
+    @Element(name = "characteristics", required = false)
     public SpreedlyGatewayCharacteristics characteristics;
     /**
      * List of payment method types that the gateway supports.
@@ -56,7 +56,7 @@ public class SpreedlyGatewayProvider {
     /**
      * Name of the company that operates the gateway provider.
      */
-    @Element(name = "company_name")
+    @Element(name = "company_name", required = false)
     public String companyName;
 
     /**
@@ -204,12 +204,12 @@ public class SpreedlyGatewayProvider {
 
     // Private XML hassles below here
 
-    @Element(name = "regions")
+    @Element(name = "regions", required = false)
     private void setRegionString(final String in) {
         split(in, regions);
     }
 
-    @Element(name = "supported_countries")
+    @Element(name = "supported_countries", required = false)
     private void setSupportedCountryString(final String in) {
         split(in, supportedCountries);
     }

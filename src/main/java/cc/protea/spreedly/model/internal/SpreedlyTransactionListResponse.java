@@ -11,7 +11,7 @@ import cc.protea.spreedly.model.SpreedlyTransactionResponse;
 @Root(name = "transactions", strict = false)
 public class SpreedlyTransactionListResponse {
 
-    @Element(name = "transaction")
+    @Element(name = "transaction", required = false)
     public List<SpreedlyTransactionResponse> transactions = new ArrayList<SpreedlyTransactionResponse>();
 
 }
