@@ -144,10 +144,7 @@ class SpreedlyUtil {
         } catch (Exception e) {
             if (logger != null) {
                 logger.log("Failed to parse XML as " + type.toString());
-                logger.log(" - " + e.toString());
-                for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                    logger.log("  - " + stackTraceElement.toString());
-                }
+                logException(logger, e);
             }
 
             // Persister.read throws generic Exception
@@ -196,10 +193,18 @@ class SpreedlyUtil {
     }
 
     private <T> T addError(final T in, final SpreedlyException e) {
+        if (logger != null) {
+            logger.log("Trying to add error to " + in.getClass());
+            logException(logger, e);
+        }
+
         if (in instanceof SpreedlyErrorSetting) {
             SpreedlyErrorSetting ses = (SpreedlyErrorSetting) in;
             ses.setError(e.errorCode, e.errorMessage);
+        } else if (logger != null) {
+            logger.log(in.getClass() + " doesn't implement " + SpreedlyErrorSetting.class.getSimpleName() + ", cannot add error.");
         }
+
         return in;
     }
 
@@ -217,6 +222,13 @@ class SpreedlyUtil {
         } catch (Exception e) {
             // Persister.write throws generic Exception
             throw new SpreedlyException(e);
+        }
+    }
+
+    private void logException(Logger logger, Exception e) {
+        logger.log(" - " + e.toString());
+        for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+            logger.log("  - " + stackTraceElement.toString());
         }
     }
 

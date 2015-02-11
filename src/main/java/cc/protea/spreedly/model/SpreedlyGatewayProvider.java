@@ -8,7 +8,7 @@ import org.simpleframework.xml.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
-@Default
+@Default(required = false)
 public class SpreedlyGatewayProvider {
 
     /**

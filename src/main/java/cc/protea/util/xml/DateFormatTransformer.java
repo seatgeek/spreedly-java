@@ -20,6 +20,7 @@ public class DateFormatTransformer implements Transform<Date> {
 
     @Override
     public Date read(String value) throws Exception {
+        value = value.replace("Z", "+0000"); // ISO 8601 allows literal 'Z' for zero offset timezone. SDF can't do that.
         String former = value.substring(0, 20);
         String latter = value.substring(20).replace(":", "");
         return dateFormat.parse(former + latter);

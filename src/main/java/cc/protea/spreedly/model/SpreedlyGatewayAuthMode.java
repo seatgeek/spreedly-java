@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author rjstanford
  */
-@Default
+@Default(required = false)
 public class SpreedlyGatewayAuthMode {
 
     /**

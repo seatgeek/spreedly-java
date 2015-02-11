@@ -3,7 +3,7 @@ package cc.protea.spreedly.model;
 import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 
-@Default
+@Default(required = false)
 public class SpreedlyGatewayCharacteristics {
 
     @Element(name = "supports_purchase", required = false)

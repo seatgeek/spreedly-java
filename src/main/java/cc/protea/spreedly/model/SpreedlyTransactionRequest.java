@@ -5,7 +5,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
 
-@Default
+@Default(required = false)
 @Root(name = "transaction", strict = false)
 public class SpreedlyTransactionRequest {
     /**

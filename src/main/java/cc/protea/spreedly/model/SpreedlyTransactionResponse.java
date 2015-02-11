@@ -11,7 +11,7 @@ import java.util.Map;
 
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
 
-@Default
+@Default(required = false)
 @Root(name = "transaction", strict = false)
 public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
 
@@ -93,10 +93,10 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     /**
      * Fields that a gateway defines for a specific purpose but are not implemented by all gateways.
      */
-    @Element(name = "gateway_specific_fields")
+    @Element(name = "gateway_specific_fields", required = false)
     @Convert(NodeFlatteningConverter.class)
     public Map<String, String>     gatewaySpecificFields         = new HashMap<String, String>();
-    @Element(name = "gateway_specific_response_fields")
+    @Element(name = "gateway_specific_response_fields", required = false)
     @Convert(NodeFlatteningConverter.class)
     public Map<String, String> gatewaySpecificResponseFields = new HashMap<String, String>();
 

@@ -2,7 +2,7 @@ package cc.protea.spreedly.model;
 
 import org.simpleframework.xml.Default;
 
-@Default
+@Default(required = false)
 public class SpreedlyGatewayCredential {
 
     /**

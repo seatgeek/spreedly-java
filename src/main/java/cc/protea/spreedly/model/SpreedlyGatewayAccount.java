@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Default
+@Default(required = false)
 @Root(name = "gateway", strict = false)
 public class SpreedlyGatewayAccount {
 

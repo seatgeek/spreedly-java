@@ -5,7 +5,7 @@ import org.simpleframework.xml.Element;
 
 import java.util.Date;
 
-@Default
+@Default(required = false)
 public class SpreedlyTransactionResponseDetails {
 
     public boolean         success;
