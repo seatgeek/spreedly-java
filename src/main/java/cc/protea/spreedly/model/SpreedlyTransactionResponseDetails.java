@@ -1,9 +1,11 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 
 import java.util.Date;
 
+@Default
 public class SpreedlyTransactionResponseDetails {
 
     public boolean         success;

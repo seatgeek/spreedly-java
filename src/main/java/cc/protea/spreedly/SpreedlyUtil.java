@@ -7,8 +7,6 @@ import org.simpleframework.xml.Root;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import javax.xml.bind.DatatypeConverter;
-
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
 import cc.protea.util.http.HttpClient;
 import cc.protea.util.http.Request;
@@ -17,16 +15,22 @@ import cc.protea.util.xml.XmlUtils;
 
 class SpreedlyUtil {
 
-    private final String environmentKey;
+    private final String          environmentKey;
+    private final String          apiSecret;
+    private final HttpClient      client;
+    private final Base64Converter base64Converter;
+    private       Logger          logger;
 
-    private final String apiSecret;
-
-    private final HttpClient client;
-
-    public SpreedlyUtil(final String environmentKey, final String apiSecret, final HttpClient client) {
+    public SpreedlyUtil(final String environmentKey, final String apiSecret, final HttpClient client, final Base64Converter base64Converter, Logger logger) {
         this.environmentKey = environmentKey;
         this.apiSecret = apiSecret;
         this.client = client;
+        this.base64Converter = base64Converter;
+        this.logger = logger;
+
+        if (logger != null) {
+            logger.log("New SpreedlyUtil instance created");
+        }
     }
 
     <T> T options(final String url, final Class<T> type) {
@@ -104,13 +108,15 @@ class SpreedlyUtil {
 
     private String getAuthorizationHeader() {
         final String pair = this.environmentKey + ":" + this.apiSecret;
-        final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+        final String base64 = base64Converter.encode(pair);
+
         return "Basic " + base64;
     }
 
     private Request getService(final String url) {
         final Request request = new Request(url).setContentType("application/xml")
-                                                .addHeader("Accept", "application/xml");
+                                                .addHeader("Accept", "application/xml")
+                                                .setLogger(logger);
 
         if (apiSecret == null) {
             request.addQueryParameter("environment_key", this.environmentKey);
@@ -136,6 +142,14 @@ class SpreedlyUtil {
         try {
             return XmlUtils.parse(type, xml);
         } catch (Exception e) {
+            if (logger != null) {
+                logger.log("Failed to parse XML as " + type.toString());
+                logger.log(" - " + e.toString());
+                for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                    logger.log("  - " + stackTraceElement.toString());
+                }
+            }
+
             // Persister.read throws generic Exception
             if (!handleErrors) {
                 throw new SpreedlyException(e);

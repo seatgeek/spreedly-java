@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cc.protea.spreedly.Logger;
+
 /*
  * Copyright 2012 Joe J. Ernst
  * <p/>
@@ -43,6 +45,8 @@ public class Request extends Message<Request> {
     private boolean doOutput;
 
     private String contentType;
+
+    private Logger logger;
 
     /**
      * The Constructor takes the url as a String.
@@ -124,7 +128,7 @@ public class Request extends Message<Request> {
         setDoOutput(true);
         setMethod(METHOD_GET);
 
-        return client.execute(this);
+        return execute(client);
     }
 
     /**
@@ -140,7 +144,7 @@ public class Request extends Message<Request> {
         setDoOutput(true);
         setMethod(METHOD_OPTIONS);
 
-        return client.execute(this);
+        return execute(client);
     }
 
     /**
@@ -156,7 +160,7 @@ public class Request extends Message<Request> {
         setDoOutput(true);
         setMethod(METHOD_PUT);
 
-        return client.execute(this);
+        return execute(client);
     }
 
     /**
@@ -172,7 +176,39 @@ public class Request extends Message<Request> {
         setDoOutput(true);
         setMethod(METHOD_POST);
 
-        return client.execute(this);
+        return execute(client);
+    }
+
+    private Response execute(HttpClient client) throws IOException {
+        if (logger != null) {
+            logger.log("Request: " + url);
+
+            logHeaders(logger, headers);
+
+            if (METHOD_POST.equals(getMethod())) {
+                logger.log("Body: " + getBody());
+            }
+        }
+
+        final Response response = client.execute(this);
+
+        if (logger != null) {
+            logger.log(String.format("Response: %d %s", response.getResponseCode(), url));
+
+            logHeaders(logger, response.headers);
+
+            logger.log("Body: " + response.getBody());
+        }
+
+        return response;
+    }
+
+    private void logHeaders(Logger localLogger, Map<String, List<String>> localHeaders) {
+        for (String key : localHeaders.keySet()) {
+            for (String value : localHeaders.get(key)) {
+                localLogger.log(" - " + key + ": " + value);
+            }
+        }
     }
 
     /**
@@ -189,7 +225,7 @@ public class Request extends Message<Request> {
         setDoOutput(true);
         setMethod(METHOD_DELETE);
 
-        return client.execute(this);
+        return execute(client);
     }
 
     /**
@@ -244,5 +280,10 @@ public class Request extends Message<Request> {
 
     public String getContentType() {
         return this.contentType;
+    }
+
+    public Request setLogger(Logger logger) {
+        this.logger = logger;
+        return this;
     }
 }

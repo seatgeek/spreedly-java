@@ -8,7 +8,7 @@ public class SpreedlyMessage {
     /**
      * The constant Spreedly key representing the results, useful for translation.
      */
-    @Attribute
+    @Attribute(name = "key", required = false)
     public String key;
 
     /**

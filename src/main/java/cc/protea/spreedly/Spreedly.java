@@ -23,12 +23,9 @@ public class Spreedly {
 
     private final SpreedlyUtil util;
 
-    public Spreedly(final String environmentKey, final String apiSecret, final HttpClient client) {
-        util = new SpreedlyUtil(environmentKey, apiSecret, client);
-    }
-
-    public Spreedly(final String environmentKey, final String apiSecret) {
-        this(environmentKey, apiSecret, new HttpURLConnectionClient());
+    public Spreedly(final String environmentKey, final String apiSecret, final HttpClient client, Base64Converter base64Converter,
+                    Logger logger) {
+        util = new SpreedlyUtil(environmentKey, apiSecret, client, base64Converter, logger);
     }
 
     // Gateway Providers
@@ -404,4 +401,48 @@ public class Spreedly {
                         SpreedlyTransactionResponse.class);
     }
 
+    public static class Builder {
+        private String          environmentKey;
+        private String          apiSecret;
+        private HttpClient      client;
+        private Base64Converter base64Converter;
+        private Logger          logger;
+
+        public Builder setEnvironmentKey(String environmentKey) {
+            this.environmentKey = environmentKey;
+            return this;
+        }
+
+        public Builder setApiSecret(String apiSecret) {
+            this.apiSecret = apiSecret;
+            return this;
+        }
+
+        public Builder setClient(HttpClient client) {
+            this.client = client;
+            return this;
+        }
+
+        public Builder setBase64Converter(Base64Converter base64Converter) {
+            this.base64Converter = base64Converter;
+            return this;
+        }
+
+        public Builder setLogger(Logger logger) {
+            this.logger = logger;
+            return this;
+        }
+
+        public Spreedly createSpreedly() {
+            if (environmentKey == null) {
+                throw new NullPointerException("Environment key cannot be null");
+            }
+
+            if (client == null) {
+                client = new HttpURLConnectionClient();
+            }
+
+            return new Spreedly(environmentKey, apiSecret, client, base64Converter, logger);
+        }
+    }
 }

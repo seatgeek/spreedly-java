@@ -1,9 +1,11 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Transient;
 
+@Default
 @Root(name = "transaction", strict = false)
 public class SpreedlyTransactionRequest {
     /**

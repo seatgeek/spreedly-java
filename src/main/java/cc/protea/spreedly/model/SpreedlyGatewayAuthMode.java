@@ -1,5 +1,6 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
@@ -11,6 +12,7 @@ import java.util.List;
  *
  * @author rjstanford
  */
+@Default
 public class SpreedlyGatewayAuthMode {
 
     /**

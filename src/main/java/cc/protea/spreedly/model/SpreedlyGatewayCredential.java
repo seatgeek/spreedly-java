@@ -1,5 +1,8 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
+
+@Default
 public class SpreedlyGatewayCredential {
 
     /**

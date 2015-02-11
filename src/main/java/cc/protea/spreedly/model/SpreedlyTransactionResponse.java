@@ -1,5 +1,6 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
 
+@Default
 @Root(name = "transaction", strict = false)
 public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
 
@@ -145,8 +147,6 @@ public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
     public SpreedlyTransactionResponseDetails  redirectResponse;
     @Element(name = "callback_response", required = false)
     public SpreedlyTransactionResponseDetails  callbackResponse;
-
-    private String gatewaySpecificResponseFieldsKey;
 
     /**
      * @return Any positive whole number, for example 1234 = $12.34.

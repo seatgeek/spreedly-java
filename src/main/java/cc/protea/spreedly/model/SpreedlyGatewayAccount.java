@@ -1,5 +1,6 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Default
 @Root(name = "gateway", strict = false)
 public class SpreedlyGatewayAccount {
 

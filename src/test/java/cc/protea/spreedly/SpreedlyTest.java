@@ -34,7 +34,7 @@ public class SpreedlyTest {
         if (environmentKey == null || apiSecret == null) {
             return null;
         }
-        return new Spreedly(environmentKey, apiSecret);
+        return new Spreedly.Builder().setEnvironmentKey(environmentKey).setApiSecret(apiSecret).createSpreedly();
     }
 
     private static String getEnvironmentKey() {

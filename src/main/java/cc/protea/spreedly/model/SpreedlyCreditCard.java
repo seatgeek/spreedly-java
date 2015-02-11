@@ -1,7 +1,9 @@
 package cc.protea.spreedly.model;
 
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 
+@Default
 public class SpreedlyCreditCard {
 
     @Element(name = "first_name", required = false)
