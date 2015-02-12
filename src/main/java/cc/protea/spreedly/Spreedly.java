@@ -1,5 +1,6 @@
 package cc.protea.spreedly;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Spreedly {
      * Retrieves a list of the currently supported payment gateway providers, including the necessary credentials to
      * add that type of gateway to an environment.
      */
-    public List<SpreedlyGatewayProvider> listGatewayProviders() {
+    public List<SpreedlyGatewayProvider> listGatewayProviders() throws IOException, SpreedlyException {
         SpreedlyGatewayProviderResponse response = util.options("https://core.spreedly.com/v1/gateways.xml", SpreedlyGatewayProviderResponse.class);
         return response.gateways;
     }
@@ -42,7 +43,7 @@ public class Spreedly {
     /**
      * Retrieves information about a single gateway provider.
      */
-    public SpreedlyGatewayProvider getGatewayProvider(final String name) {
+    public SpreedlyGatewayProvider getGatewayProvider(final String name) throws IOException, SpreedlyException {
         for (SpreedlyGatewayProvider provider : listGatewayProviders()) {
             if (provider != null && provider.name != null && provider.name.equals(name)) {
                 return provider;
@@ -56,7 +57,7 @@ public class Spreedly {
     /**
      * Retrieve a list of all gateway accounts based on the environment supplied for authentication.
      */
-    public List<SpreedlyGatewayAccount> listGatewayAccounts() {
+    public List<SpreedlyGatewayAccount> listGatewayAccounts() throws IOException, SpreedlyException {
         List<SpreedlyGatewayAccount> list = new ArrayList<SpreedlyGatewayAccount>();
         String lastToken = null;
         do {
@@ -77,8 +78,8 @@ public class Spreedly {
      *
      * @param sinceToken the last token received in the previous list
      */
-    public List<SpreedlyGatewayAccount> listGatewayAccounts(final String sinceToken) {
-        String url = "https://core.spreedly.com/v1/gateways.xml" + sinceToken == null ? "" : ("?since_token=" + sinceToken.trim());
+    public List<SpreedlyGatewayAccount> listGatewayAccounts(final String sinceToken) throws IOException, SpreedlyException {
+        String url = "https://core.spreedly.com/v1/gateways.xml" + (sinceToken == null ? "" : ("?since_token=" + sinceToken.trim()));
         SpreedlyGatewayAccountResponse response = util.get(url, SpreedlyGatewayAccountResponse.class);
         return response.gateways;
     }
@@ -86,14 +87,14 @@ public class Spreedly {
     /**
      * Retrieve a single gateway account.
      */
-    public SpreedlyGatewayAccount getGatewayAccount(final String token) {
+    public SpreedlyGatewayAccount getGatewayAccount(final String token) throws IOException, SpreedlyException {
         return util.get("https://core.spreedly.com/v1/gateways/" + token + ".xml", SpreedlyGatewayAccount.class);
     }
 
     /**
      * This action allows you to change your credentials for a gateway.
      */
-    public SpreedlyGatewayAccount update(final SpreedlyGatewayAccount account) {
+    public SpreedlyGatewayAccount update(final SpreedlyGatewayAccount account) throws IOException, SpreedlyException {
         SpreedlyGatewayAccountUpdate simple = new SpreedlyGatewayAccountUpdate(account);
         return util.put("https://core.spreedly.com/v1/gateways/" + account.token + ".xml", simple, SpreedlyGatewayAccount.class);
     }
@@ -103,7 +104,7 @@ public class Spreedly {
      * credentials. Spreedly stores and protects the credentials to be used to authenticate with gateway accounts for
      * transaction processing.
      */
-    public SpreedlyGatewayAccount create(final SpreedlyGatewayAccount account) {
+    public SpreedlyGatewayAccount create(final SpreedlyGatewayAccount account) throws IOException, SpreedlyException {
         SpreedlyGatewayAccountUpdate simple = new SpreedlyGatewayAccountUpdate(account);
         return util.post("https://core.spreedly.com/v1/gateways.xml", simple, SpreedlyGatewayAccount.class);
     }
@@ -112,7 +113,7 @@ public class Spreedly {
      * Gateway accounts can't be deleted (since they're permanently associated with any transactions run against them), but the sensitive credential
      * information in them can be redacted so that they're inactive.
      */
-    public SpreedlyGatewayAccount redact(final SpreedlyGatewayAccount account) {
+    public SpreedlyGatewayAccount redact(final SpreedlyGatewayAccount account) throws IOException, SpreedlyException {
         return util.put("https://core.spreedly.com/v1/gateways/" + account.token + "/redact.xml", null, SpreedlyGatewayAccount.class);
     }
 
@@ -122,19 +123,19 @@ public class Spreedly {
      * automatically redacted. This allows your customers to create gateway accounts using their own credentials, but until you retain
      * it, it cannot be used and you will not be billed for it.
      */
-    public SpreedlyGatewayAccount retain(final SpreedlyGatewayAccount account) {
+    public SpreedlyGatewayAccount retain(final SpreedlyGatewayAccount account) throws IOException, SpreedlyException {
         return util.put("https://core.spreedly.com/v1/gateways/" + account.token + "/retain.xml", null, SpreedlyGatewayAccount.class);
     }
 
     // Transactions
 
-    private SpreedlyTransactionResponse gatewayPost(final SpreedlyTransactionRequest request, final String url) {
+    private SpreedlyTransactionResponse gatewayPost(final SpreedlyTransactionRequest request, final String url) throws IOException, SpreedlyException {
         return util.post("https://core.spreedly.com/v1/gateways/" + request.gatewayAccountToken + "/" + url,
                          request,
                          SpreedlyTransactionResponse.class);
     }
 
-    private SpreedlyTransactionResponse transactionPost(final SpreedlyTransactionRequest request, final String url) {
+    private SpreedlyTransactionResponse transactionPost(final SpreedlyTransactionRequest request, final String url) throws IOException, SpreedlyException {
         return util.post("https://core.spreedly.com/v1/transactions/" + request.referenceTransactionToken + "/" + url,
                          request,
                          SpreedlyTransactionResponse.class);
@@ -146,7 +147,7 @@ public class Spreedly {
      * will be allowed to be transferred. It does not take funds at that point, a capture transaction is
      * required to move the funds.
      */
-    public SpreedlyTransactionResponse authorize(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse authorize(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return gatewayPost(request, "authorize.xml");
     }
 
@@ -155,14 +156,14 @@ public class Spreedly {
      * money up to the amount that had been taken during a previous transaction. The general_credit action does
      * not require a reference transaction. Support for this capability depends on the gateway.
      */
-    public SpreedlyTransactionResponse generalCredit(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse generalCredit(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return gatewayPost(request, "general_credit.xml");
     }
 
     /**
      * A purchase call immediately takes funds from the payment method (assuming the transaction succeeds).
      */
-    public SpreedlyTransactionResponse purchase(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse purchase(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         if (request.referenceTransactionToken != null) {
             return purchase(request.referenceTransactionToken, request.amountInCents, request.currencyCode);
         }
@@ -174,7 +175,7 @@ public class Spreedly {
      * Since tokens are gateway specific, ThirdPartyToken payment methods are locked to the gateway type
      * they were created against, and you'll receive an error if you try to use them with the wrong gateway.
      */
-    public SpreedlyTransactionResponse store(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse store(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return gatewayPost(request, "store.xml");
     }
 
@@ -185,7 +186,7 @@ public class Spreedly {
      * @param desc       if true, reverse the order to retrieve the most recent first
      */
     public List<SpreedlyTransactionResponse> listGatewayAccountTransactions(final String gatewayAccountToken, final String sinceToken,
-                                                                            final boolean desc) {
+                                                                            final boolean desc) throws IOException, SpreedlyException {
         String url = "https://core.spreedly.com/v1/gateways/" + gatewayAccountToken + "/transactions.xml?order=" +
                              (desc ? "desc" : "asc") +
                              (sinceToken == null ? "" : "&since_token = " + sinceToken.trim());
@@ -197,14 +198,14 @@ public class Spreedly {
      * Ask a gateway if a payment method is in good standing. Use the retain_on_success request parameter to automatically
      * retain the card if it's successfully verified.
      */
-    public SpreedlyTransactionResponse verify(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse verify(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return gatewayPost(request, "verify.xml");
     }
 
     /**
      * A capture will take the funds previously reserved via an authorization.
      */
-    public SpreedlyTransactionResponse capture(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse capture(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return transactionPost(request, "capture.xml");
     }
 
@@ -212,7 +213,7 @@ public class Spreedly {
      * A credit is like a void, except it actually reverses a charge instead of just canceling a charge that hasn't
      * yet been made. It can also be called a refund.
      */
-    public SpreedlyTransactionResponse credit(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse credit(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return transactionPost(request, "credit.xml");
     }
 
@@ -222,7 +223,7 @@ public class Spreedly {
      * @param sinceToken the last token received in the previous list
      * @param desc       if true, reverse the order to retrieve the most recent first
      */
-    public List<SpreedlyTransactionResponse> listTransactions(final String sinceToken, final boolean desc) {
+    public List<SpreedlyTransactionResponse> listTransactions(final String sinceToken, final boolean desc) throws IOException, SpreedlyException {
         String url = "https://core.spreedly.com/v1/transactions.xml?order=" +
                              (desc ? "desc" : "asc") +
                              (sinceToken == null ? "" : "&since_token = " + sinceToken.trim());
@@ -233,7 +234,7 @@ public class Spreedly {
     /**
      * Execute a reference purchase using the payment method utilized in a previous transaction.
      */
-    public SpreedlyTransactionResponse purchase(final String referenceTransactionToken, final Integer amountInCents, final String currencyCode) {
+    public SpreedlyTransactionResponse purchase(final String referenceTransactionToken, final Integer amountInCents, final String currencyCode) throws IOException, SpreedlyException {
         final SpreedlyTransactionRequest request = new SpreedlyTransactionRequest();
         request.referenceTransactionToken = referenceTransactionToken;
         request.amountInCents = amountInCents;
@@ -244,14 +245,14 @@ public class Spreedly {
     /**
      * Retrieve a single transaction.
      */
-    public SpreedlyTransactionResponse getTransaction(final String token) {
+    public SpreedlyTransactionResponse getTransaction(final String token) throws IOException, SpreedlyException {
         return util.get("https://core.spreedly.com/v1/xtransactions/" + token + ".xml", SpreedlyTransactionResponse.class);
     }
 
     /**
      * Retrieve the transcript for a single transaction.
      */
-    public String getTranscript(final String token) {
+    public String getTranscript(final String token) throws IOException, SpreedlyException {
         return util.get("https://core.spreedly.com/v1/transactions/" + token + "/transcript", String.class);
     }
 
@@ -259,7 +260,7 @@ public class Spreedly {
      * Void is used to cancel out authorizations and, with some gateways, to cancel actual payment transactions within the
      * first 24 hours (credits are used after that).
      */
-    public SpreedlyTransactionResponse voidTransaction(final SpreedlyTransactionRequest request) {
+    public SpreedlyTransactionResponse voidTransaction(final SpreedlyTransactionRequest request) throws IOException, SpreedlyException {
         return transactionPost(request, "void.xml");
     }
 
@@ -270,7 +271,7 @@ public class Spreedly {
      * from your own servers because you will not want to reveal you access secret to your customers. It is important to know that
      * transmitting sensitive data through your servers significantly increases your PCI compliance requirements.
      */
-    public SpreedlyTransactionResponse create(final SpreedlyCreditCard creditCard) {
+    public SpreedlyTransactionResponse create(final SpreedlyCreditCard creditCard) throws IOException, SpreedlyException {
         SpreedlyPaymentMethodCreateRequest request = new SpreedlyPaymentMethodCreateRequest();
         request.creditCard = creditCard;
         request.data = creditCard.data;
@@ -284,7 +285,7 @@ public class Spreedly {
      *
      * @param sinceToken the last token received in the previous list
      */
-    public List<SpreedlyPaymentMethod> listPaymentMethods(final String sinceToken, final boolean desc) {
+    public List<SpreedlyPaymentMethod> listPaymentMethods(final String sinceToken, final boolean desc) throws IOException, SpreedlyException {
         String url = "https://core.spreedly.com/v1/payment_methods.xml?order=" +
                              (desc ? "desc" : "asc") +
                              (sinceToken == null ? "" : "&since_token = " + sinceToken.trim());
@@ -299,7 +300,7 @@ public class Spreedly {
      * have to recollect the whole payment method. Only sensitive fields can be re-cached (currently the verificationValue
      * for credit cards), and any already vaulted data will be ignored.
      */
-    public SpreedlyTransactionResponse recache(final String paymentMethodToken, final String verificationValue) {
+    public SpreedlyTransactionResponse recache(final String paymentMethodToken, final String verificationValue) throws IOException, SpreedlyException {
         SpreedlyPaymentMethod request = new SpreedlyPaymentMethod();
         request.verificationValue = verificationValue;
         request.token = paymentMethodToken;
@@ -313,7 +314,7 @@ public class Spreedly {
      * have to recollect the whole payment method. Only sensitive fields can be re-cached (currently the verificationValue
      * for credit cards), and any already vaulted data will be ignored.
      */
-    public SpreedlyTransactionResponse recache(final SpreedlyPaymentMethod paymentMethod) {
+    public SpreedlyTransactionResponse recache(final SpreedlyPaymentMethod paymentMethod) throws IOException, SpreedlyException {
         return util.post("https://core.spreedly.com/v1/payment_methods/" + paymentMethod.token + "/recache.xml",
                          paymentMethod,
                          SpreedlyTransactionResponse.class);
@@ -330,7 +331,7 @@ public class Spreedly {
      * can no longer be used. In a case like this, if you just did a redact, then it's true that you'd no longer be able to use that
      * payment method with Spreedly, but it wouldn't stop you from using it directly through your gateway interface.
      */
-    public SpreedlyTransactionResponse redact(final String paymentMethodToken, final String gatewayAccountToken) {
+    public SpreedlyTransactionResponse redact(final String paymentMethodToken, final String gatewayAccountToken) throws IOException, SpreedlyException {
         SpreedlyPaymentMethodUpdate request = null;
         if (gatewayAccountToken != null) {
             request = new SpreedlyPaymentMethodUpdate();
@@ -347,7 +348,7 @@ public class Spreedly {
      * be used for transactions since the account information will have been disposed of. Spreedly does not charge storage fees
      * on redacted payment methods.
      */
-    public SpreedlyTransactionResponse redact(final String paymentMethodToken) {
+    public SpreedlyTransactionResponse redact(final String paymentMethodToken) throws IOException, SpreedlyException {
         return redact(paymentMethodToken, null);
     }
 
@@ -358,7 +359,7 @@ public class Spreedly {
      * Passing the retain_on_success parameter to the purchase, verify, or authorize call can save you from having to make another
      * API call to do the retain. If the purchase, verify, or authorize succeeds, then the payment method is retained for you.
      */
-    public SpreedlyTransactionResponse retain(final String paymentMethodToken) {
+    public SpreedlyTransactionResponse retain(final String paymentMethodToken) throws IOException, SpreedlyException {
         return util.put("https://core.spreedly.com/v1/payment_methods/" + paymentMethodToken + "/retain.xml",
                         null,
                         SpreedlyTransactionResponse.class);
@@ -367,7 +368,7 @@ public class Spreedly {
     /**
      * Retrieve a single payment method by supplying the payment method key.
      */
-    public SpreedlyPaymentMethod getPaymentMethod(final String paymentMethodToken) {
+    public SpreedlyPaymentMethod getPaymentMethod(final String paymentMethodToken) throws IOException, SpreedlyException {
         return util.get("https://core.spreedly.com/v1/payment_methods/" + paymentMethodToken + "/retain.xml", SpreedlyPaymentMethod.class);
     }
 
@@ -378,7 +379,7 @@ public class Spreedly {
      * @param desc       if true, reverse the order to retrieve the most recent first
      */
     public List<SpreedlyTransactionResponse> listPaymentMethodTransactions(final String paymentMethodToken, final String sinceToken,
-                                                                           final boolean desc) {
+                                                                           final boolean desc) throws IOException, SpreedlyException {
         String url = "https://core.spreedly.com/v1/payment_methods/" + paymentMethodToken + "/transactions.xml?order=" +
                              (desc ? "desc" : "asc") +
                              (sinceToken == null ? "" : "&since_token = " + sinceToken.trim());
@@ -395,7 +396,7 @@ public class Spreedly {
      * There may be times, though, when you'd like to update a payment method without customer interaction. In this case, we provide an API
      * call to do so. It's important to note that updating the card number and verification_value is prohibited using this API call.
      */
-    public SpreedlyTransactionResponse update(final SpreedlyPaymentMethod paymentMethod) {
+    public SpreedlyTransactionResponse update(final SpreedlyPaymentMethod paymentMethod) throws IOException, SpreedlyException {
         return util.put("https://core.spreedly.com/v1/payment_methods/" + paymentMethod.token + ".xml",
                         paymentMethod,
                         SpreedlyTransactionResponse.class);
