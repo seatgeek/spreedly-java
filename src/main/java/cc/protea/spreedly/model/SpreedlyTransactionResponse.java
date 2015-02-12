@@ -9,11 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import cc.protea.spreedly.model.internal.SpreedlyErrorSetting;
-
 @Default(required = false)
 @Root(name = "transaction", strict = false)
-public class SpreedlyTransactionResponse implements SpreedlyErrorSetting {
+public class SpreedlyTransactionResponse {
 
     /**
      * Any positive whole number, for example 1234 = $12.34.
