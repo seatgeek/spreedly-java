@@ -71,6 +71,7 @@ public class SpreedlyPaymentMethod {
     public List<String> errors = new ArrayList<String>();
     @Element(name = "api_urls", required = false)
     public SpreedlyApiURLs apiUrls;
+    @Element(required = false)
     public String          number;
 
     public String getToken() {
