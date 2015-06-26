@@ -8,6 +8,7 @@ import cc.protea.spreedly.model.SpreedlyCreditCard;
 import cc.protea.spreedly.model.SpreedlyGatewayAccount;
 import cc.protea.spreedly.model.SpreedlyGatewayProvider;
 import cc.protea.spreedly.model.SpreedlyPaymentMethod;
+import cc.protea.spreedly.model.SpreedlyPaymentMethodRecache;
 import cc.protea.spreedly.model.SpreedlyTransactionRequest;
 import cc.protea.spreedly.model.SpreedlyTransactionResponse;
 import cc.protea.spreedly.model.internal.SpreedlyGatewayAccountResponse;
@@ -280,6 +281,21 @@ public class Spreedly {
     }
 
     /**
+     * There are two ways to update a payment method. If you'd like to change the sensitive information like the credit card number
+     * or the verification value, you'll want to just create and retain a new payment method using the usual transparent redirect approach,
+     * redact the old payment method, and hold onto the token for the new payment method. This is the primary mechanism to use when you want
+     * to give your customer the ability to update their card information. This process is described in detail as part of the Quickstart.
+     * <br/><br/>
+     * There may be times, though, when you'd like to update a payment method without customer interaction. In this case, we provide an API
+     * call to do so. It's important to note that updating the card number and verification_value is prohibited using this API call.
+     */
+    public SpreedlyTransactionResponse update(final SpreedlyPaymentMethod paymentMethod) throws IOException, SpreedlyException {
+        return util.put("https://core.spreedly.com/v1/payment_methods/" + paymentMethod.token + ".xml",
+                paymentMethod,
+                SpreedlyTransactionResponse.class);
+    }
+
+    /**
      * Retrieve a list of all payment methods based on the environment supplied for authentication. This is a paginated list,
      * for the next page pass in the optional sinceToken parameter
      *
@@ -301,10 +317,15 @@ public class Spreedly {
      * for credit cards), and any already vaulted data will be ignored.
      */
     public SpreedlyTransactionResponse recache(final String paymentMethodToken, final String verificationValue) throws IOException, SpreedlyException {
-        SpreedlyPaymentMethod request = new SpreedlyPaymentMethod();
-        request.verificationValue = verificationValue;
-        request.token = paymentMethodToken;
-        return recache(request);
+        final SpreedlyCreditCard card = new SpreedlyCreditCard();
+        card.setVerificationValue(verificationValue);
+
+        final SpreedlyPaymentMethodRecache request = new SpreedlyPaymentMethodRecache();
+        request.setCard(card);
+
+        return util.post("https://core.spreedly.com/v1/payment_methods/" + paymentMethodToken + "/recache.xml",
+                request,
+                SpreedlyTransactionResponse.class);
     }
 
     /**
@@ -385,21 +406,6 @@ public class Spreedly {
                              (sinceToken == null ? "" : "&since_token = " + sinceToken.trim());
         SpreedlyTransactionListResponse r = util.get(url, SpreedlyTransactionListResponse.class);
         return r.transactions;
-    }
-
-    /**
-     * There are two ways to update a payment method. If you'd like to change the sensitive information like the credit card number
-     * or the verification value, you'll want to just create and retain a new payment method using the usual transparent redirect approach,
-     * redact the old payment method, and hold onto the token for the new payment method. This is the primary mechanism to use when you want
-     * to give your customer the ability to update their card information. This process is described in detail as part of the Quickstart.
-     * <br/><br/>
-     * There may be times, though, when you'd like to update a payment method without customer interaction. In this case, we provide an API
-     * call to do so. It's important to note that updating the card number and verification_value is prohibited using this API call.
-     */
-    public SpreedlyTransactionResponse update(final SpreedlyPaymentMethod paymentMethod) throws IOException, SpreedlyException {
-        return util.put("https://core.spreedly.com/v1/payment_methods/" + paymentMethod.token + ".xml",
-                        paymentMethod,
-                        SpreedlyTransactionResponse.class);
     }
 
     public static class Builder {

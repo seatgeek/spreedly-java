@@ -185,8 +185,10 @@ public class Request extends Message<Request> {
 
             logHeaders(logger, headers);
 
-            if (METHOD_POST.equals(getMethod())) {
-                logger.log("Body: " + getBody());
+            final String body = getBody();
+
+            if (body != null && body.length() > 0) {
+                logger.log("Body: " + body);
             }
         }
 
