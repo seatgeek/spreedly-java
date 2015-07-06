@@ -20,7 +20,8 @@ class SpreedlyUtil {
     private final Base64Converter base64Converter;
     private       Logger          logger;
 
-    public SpreedlyUtil(final String environmentKey, final String apiSecret, final HttpClient client, final Base64Converter base64Converter, Logger logger) {
+    public SpreedlyUtil(final String environmentKey, final String apiSecret, final HttpClient client, final Base64Converter base64Converter, Logger
+            logger) {
         this.environmentKey = environmentKey;
         this.apiSecret = apiSecret;
         this.client = client;
@@ -83,6 +84,19 @@ class SpreedlyUtil {
     }
 
     private <T> T convert(final String xml, final Class<T> type) throws SpreedlyException {
+        return convert(xml, type, true);
+    }
+
+    /**
+     * @param xml
+     * @param type
+     * @param defensive Denotes whether we try to re-parse the XML as a {@code SpreedlyError} or {@code SpreedlyHash}. If {@code true}, we will try.
+     *                  If {@code false}, we will not.
+     * @param <T>
+     * @return
+     * @throws SpreedlyException
+     */
+    private <T> T convert(final String xml, final Class<T> type, boolean defensive) throws SpreedlyException {
         if (xml == null) {
             return null;
         }
@@ -95,19 +109,21 @@ class SpreedlyUtil {
         try {
             return XmlUtils.parse(type, xml);
         } catch (Exception e) {
-            if (logger != null) {
-                logger.log("Failed to parse XML as " + type.toString());
-                logException(logger, e);
-            }
+            if (defensive) {
+                if (logger != null) {
+                    logger.log("Failed to parse XML as " + type.toString());
+                    logException(logger, e);
+                }
 
-            if (xml.contains("<errors>")) {
-                SpreedlyErrors errors = convert(xml, SpreedlyErrors.class);
-                throw new SpreedlyException(e, errors.error.key, errors.error.error);
-            }
+                if (xml.contains("<errors>") && xml.contains("<error>")) {
+                    SpreedlyErrors errors = convert(xml, SpreedlyErrors.class, false);
+                    throw new SpreedlyException(e, errors.error.key, errors.error.error);
+                }
 
-            if (xml.contains("<hash>")) {
-                SpreedlyHash hash = convert(xml, SpreedlyHash.class);
-                throw new SpreedlyException(e, hash.status, hash.error);
+                if (xml.contains("<hash>")) {
+                    SpreedlyHash hash = convert(xml, SpreedlyHash.class, false);
+                    throw new SpreedlyException(e, hash.status, hash.error);
+                }
             }
 
             throw new SpreedlyException(e);
