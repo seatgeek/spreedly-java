@@ -67,8 +67,8 @@ public class SpreedlyPaymentMethod {
     public SpreedlyPaymentMethodType paymentMethodType;
     @Element(name = "verification_value", required = false)
     public String                    verificationValue;
-    @ElementList(name = "errors", entry = "error")
-    public List<String> errors = new ArrayList<String>();
+    @ElementList(name = "errors", entry = "error", required = false, inline = true, type = SpreedlyVaultError.class)
+    public List<SpreedlyVaultError> errors = new ArrayList<SpreedlyVaultError>();
     @Element(name = "api_urls", required = false)
     public SpreedlyApiURLs apiUrls;
     @Element(required = false)
@@ -338,11 +338,11 @@ public class SpreedlyPaymentMethod {
         this.verificationValue = verificationValue;
     }
 
-    public List<String> getErrors() {
+    public List<SpreedlyVaultError> getErrors() {
         return errors;
     }
 
-    public void setErrors(final List<String> errors) {
+    public void setErrors(final List<SpreedlyVaultError> errors) {
         this.errors = errors;
     }
 

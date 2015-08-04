@@ -2,11 +2,14 @@ package cc.protea.spreedly.model;
 
 import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Default(required = false)
@@ -145,6 +148,13 @@ public class SpreedlyTransactionResponse {
     public SpreedlyTransactionResponseDetails  redirectResponse;
     @Element(name = "callback_response", required = false)
     public SpreedlyTransactionResponseDetails  callbackResponse;
+
+    /**
+     * if the error is a 422, the errors will be on the top level response, if not,
+     * the errors will be in the PaymentMethod object
+     */
+    @ElementList(name = "errors", entry = "error", required = false, inline = true, type = SpreedlyVaultError.class)
+    public List<SpreedlyVaultError> errors = new ArrayList<SpreedlyVaultError>();
 
     /**
      * @return Any positive whole number, for example 1234 = $12.34.
