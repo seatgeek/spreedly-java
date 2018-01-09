@@ -11,15 +11,18 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:3.0.1"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.5.4"
     }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: "maven-publish"
+apply plugin: "com.jfrog.artifactory"
 
-group = 'cc.protea.spreedly'
+archivesBaseName = "spreedly"
+group = 'com.seatgeek.java.spreedly'
 version = '1.0'
 description = """spreedly"""
-
 
 android {
     compileSdkVersion 26
@@ -61,6 +64,27 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version:'4.12'
 }
 
+publishing {
+    publications {
+        create('aar', MavenPublication.class) {
+            def sdkVersionName = version
+            def aarName = "$archivesBaseName-v$sdkVersionName-1"
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("${project.buildDir}/outputs/aar/${aarName}.aar")
+
+            pom.withXml {
+                def dependencies = asNode().appendNode("dependencies")
+                project.configurations.getByName("releaseCompileClasspath").resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependency = dependencies.appendNode("dependency")
+                    dependency.appendNode("groupId", it.moduleGroup)
+                    dependency.appendNode("artifactId", it.moduleName)
+                    dependency.appendNode("version", it.moduleVersion)
+                }
+            }
+        }
+    }
+}
+
 artifactory {
     contextUrl = "https://seatgeek.jfrog.io/seatgeek/"
     publish {
@@ -85,7 +109,6 @@ project.afterEvaluate {
 
 def renameAar(String archivesBaseName, LibraryVariant variant) {
     variant.outputs.each { output ->
-        def outputData = output.variantOutputData
         def baseName = archivesBaseName
 
         if (variant.name != "release") {
@@ -94,6 +117,6 @@ def renameAar(String archivesBaseName, LibraryVariant variant) {
 
         baseName += "-v${android.defaultConfig.versionName}-${android.defaultConfig.versionCode}"
 
-        outputData.outputFile = new File(outputData.outputFile.parentFile, baseName + ".aar");
+        output.outputFileName = baseName + ".aar"
     }
 }
