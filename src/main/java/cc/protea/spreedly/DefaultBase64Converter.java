@@ -1,11 +1,11 @@
 package cc.protea.spreedly;
 
-import javax.xml.bind.DatatypeConverter;
+import android.util.Base64;
 
 public class DefaultBase64Converter implements Base64Converter {
 
     @Override
     public String encode(String input) {
-        return DatatypeConverter.printBase64Binary(input.getBytes());
+        return Base64.encodeToString(input.getBytes(), Base64.DEFAULT);
     }
 }
