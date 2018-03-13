@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.protea.spreedly.model.SpreedlyBankAccountRequest;
+import cc.protea.spreedly.model.SpreedlyBankAccountResponse;
 import cc.protea.spreedly.model.SpreedlyCreditCard;
 import cc.protea.spreedly.model.SpreedlyGatewayAccount;
 import cc.protea.spreedly.model.SpreedlyGatewayProvider;
@@ -278,6 +280,15 @@ public class Spreedly {
         request.data = creditCard.data;
         request.email = creditCard.email;
         return util.post("https://core.spreedly.com/v1/payment_methods.xml", request, SpreedlyTransactionResponse.class);
+    }
+
+    /**
+     * Tokenize bank account details
+     * @param request
+     * @return response containing bank account payment method
+     */
+    public SpreedlyBankAccountResponse create(SpreedlyBankAccountRequest request) throws IOException, SpreedlyException {
+        return util.post("https://core.spreedly.com/v1/payment_methods.xml", request, SpreedlyBankAccountResponse.class);
     }
 
     /**
