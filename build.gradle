@@ -24,7 +24,7 @@ apply plugin: "com.jfrog.artifactory"
 
 archivesBaseName = "spreedly"
 group = 'com.seatgeek.java.spreedly'
-version = '1.1'
+version = '1.2'
 description = """spreedly"""
 
 android {
