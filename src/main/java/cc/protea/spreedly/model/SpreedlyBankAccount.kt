@@ -32,4 +32,9 @@ data class SpreedlyBankAccount(
         var state: String? = null,
 
         var zip: String? = null
-)
+) {
+
+    override fun toString(): String {
+        return "SpreedlyBankAccount(firstName=$firstName)"
+    }
+}

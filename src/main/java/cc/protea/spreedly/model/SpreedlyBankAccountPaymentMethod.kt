@@ -8,10 +8,10 @@ data class SpreedlyBankAccountPaymentMethod(
 
     var token: String? = null,
 
-    @field:Element(name = "first_name")
+    @field:Element(name = "first_name", required = false)
     var firstName: String? = null,
 
-    @field:Element(name = "last_name")
+    @field:Element(name = "last_name", required = false)
     var lastName: String? = null,
 
     @field:Element(name = "routing_number_display_digits", required = false)
