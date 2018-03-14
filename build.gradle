@@ -1,27 +1,30 @@
 import com.android.build.gradle.api.LibraryVariant
 
 buildscript {
+    ext.kotlin_version = '1.2.21'
     repositories {
         mavenLocal()
         jcenter()
         mavenCentral()
-        google()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://maven.google.com/" }
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:3.0.1"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.5.4"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: "maven-publish"
 apply plugin: "com.jfrog.artifactory"
 
 archivesBaseName = "spreedly"
 group = 'com.seatgeek.java.spreedly'
-version = '1.1'
+version = '1.2'
 description = """spreedly"""
 
 android {
@@ -62,6 +65,7 @@ dependencies {
     }
     implementation group: 'com.squareup.okhttp', name: 'okhttp', version:'2.2.0'
     testImplementation group: 'junit', name: 'junit', version:'4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 publishing {
